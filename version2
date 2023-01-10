@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors Game</title>
+  <style>
+    /* CSS styles for the game */
+    #game {
+      text-align: center;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin: 20px 0;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <p>Select rock, paper, or scissors:</p>
+    <button id="rock" onclick="play('rock')">Rock</button>
+    <button id="paper" onclick="play('paper')">Paper</button>
+    <button id="scissors" onclick="play('scissors')">Scissors</button>
+    <button id="reset" onclick="resetGame()">Reset</button>
+    <p id="result"></p>
+  </div>
+  <div id="scoreboard">
+    <p>Wins: <span id="wins"></span></p>
+    <p>Loses: <span id="loses"></span></p>
+    <p>Ties: <span id="ties"></span></p>
+  </div>
+  <script>
+    // score variables
+    let wins = 0;
+    let loses = 0;
+    let ties = 0;
+
+    // JavaScript function to play the game
+    function play(userChoice) {
+      document.getElementById("rock").disabled = true;
+      document.getElementById("paper").disabled = true;
+      document.getElementById("scissors").disabled = true;
+      document.getElementById("reset").disabled = false;      
+      let computerChoice = Math.random();
+      if (computerChoice < 0.34) {
+        computerChoice = "rock";
+      } else if(computerChoice <= 0.67) {
+        computerChoice = "paper";
+      } else {
+        computerChoice = "scissors";
+      }
+      const result = determineWinner(userChoice, computerChoice);
+      document.getElementById("result").innerHTML = "You chose " + userChoice + " and the computer chose " + computerChoice + ". " + result;
+      updateScore(result);
+    }
+
+    // JavaScript function to determine the winner of the game
+    function determineWinner(userChoice, computerChoice) {
+      if (userChoice === computerChoice) {
+        ties++;
+        return "It's a tie!";
+      }
+      if (userChoice === "rock") {
+        if (computerChoice === "scissors") {
+          wins++;
+          return "You win!";
+        } else {
+          loses++;
+          return "You lose. Try again.";
+        }
+      }
+      if (userChoice === "paper") {
+        if (computerChoice === "rock") {
+          wins++;
+          return "You win!";
+        } else {
+          loses++;
+          return "You lose. Try again.";
+        }
+      }
+      if (userChoice === "scissors") {
+        if (computerChoice === "paper") {
+          wins++;
+          return "You win!";
+        } else {
+          loses++;
+          return "You lose. Try again.";
+        }
+      }
+    }
+    // update the scoreboard
+    function updateScore(result) {
+      if (result === "You win!") {
+        document.getElementById("wins").innerHTML = wins;
+      } else if (result === "You lose. Try again.") {
+        document.getElementById("loses").innerHTML = loses;
+      } else {
+        document.getElementById("ties").innerHTML = ties;
+      }
+    }
+
+    // reset the game
+    function resetGame() {
+        document.getElementById("rock").disabled = false;
+        document.getElementById("paper").disabled = false;
+        document.getElementById("scissors").disabled = false;
+        document.getElementById("reset").disabled = true;
+        document.getElementById("result").innerHTML = "";
+        wins = 0;
+        loses = 0;
+        ties = 0;
+        document.getElementById("wins").innerHTML = wins;
+        document.get
+        document.getElementById("loses").innerHTML = loses;
+        document.getElementById("ties").innerHTML = ties;
+    }
+  </script>
+</body>
+</html>
