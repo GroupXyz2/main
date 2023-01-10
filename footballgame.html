@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ball Spiel</title>
+    <style>
+      #game {
+        width: 500px;
+        height: 500px;
+        border: 1px solid black;
+        position: relative;
+      }
+      #ball {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        background-color: red;
+        position: absolute;
+      }
+      #finish {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        background-color: green;
+        position: absolute;
+        top: 450px;
+        left: 450px;
+      }
+      #timer {
+        text-align: center;
+        font-size: 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game">
+      <div id="ball"></div>
+      <div id="finish"></div>
+    </div>
+    <div id="timer"></div>
+    <script>
+      const ball = document.getElementById("ball");
+      const finish = document.getElementById("finish");
+      const game = document.getElementById("game");
+      const timer = document.getElementById("timer");
+      let timeLeft = 30;
+      let gameOver = false;
+      let x = 0;
+      let y = 0;
+      let speed = 50;
+      
+      ball.style.left = x + "px";
+      ball.style.top = y + "px";
+      
+      document.onkeydown = function(event) {
+        if (gameOver) {
+          return;
+        }
+        
+        switch (event.keyCode) {
+          case 37: // left arrow
+            x -= speed;
+            break;
+          case 38: // up arrow
+            y -= speed;
+            break;
+          case 39: // right arrow
+            x += speed;
+            break;
+          case 40: // down arrow
+            y += speed;
+            break;
+        }
+        
+        if (x < 0) {
+          x = 0;
+        } else if (x > game.clientWidth - ball.clientWidth) {
+          x = game.clientWidth - ball.clientWidth;
+        }
+        
+        if (y < 0) {
+          y = 0;
+        } else if (y > game.clientHeight - ball.clientHeight) {
+          y = game.clientHeight - ball.clientHeight;
+        }
+        
+        ball.style.left = x + "px";
+        ball.style.top = y + "px";
+        
+        // Check for collision with the finish line
+                ...
+        ball.style.top = y + "px";
+        
+        // Check for collision with the finish line
+        if (
+          x + ball.clientWidth > finish.offsetLeft &&
+          x < finish.offsetLeft + finish.clientWidth &&
+          y + ball.clientHeight > finish.offsetTop &&
+          y < finish.offsetTop + finish.clientHeight
+        ) {
+          alert("Sie haben gewonnen!");
+          gameOver = true;
+        }
+      };
+      
+      setInterval(() => {
+        if (gameOver) {
+          return;
+        }
+        timeLeft--;
+        timer.innerHTML = "Zeit übrig: " + timeLeft + "s";
+        if (timeLeft <= 0) {
+          alert("Zeit abgelaufen!");
+          gameOver = true;
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>
