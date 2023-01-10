@@ -1,5 +1,6 @@
 # main
 yes i know that im not done xD
+By the Way i don't Code everything by myself, i use ChatGPT because i can't Code that good.
 FAQ:
 Why are there no Pictures?
 Answer:
