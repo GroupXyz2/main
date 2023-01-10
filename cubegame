@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cube Game</title>
+    <style>
+      /* CSS styles go here */
+      #game {
+        position: relative;
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+        border: 1px solid black;
+      }
+    
+      #circle {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        border-radius: 25px; /* make it circular */
+      }
+    
+      #score {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game">
+      <div id="circle"></div>
+      <div id="score"></div>
+    </div>
+    <script>
+    // JavaScript code goes here
+    // Get a reference to the circle and the score element
+    const circle = document.getElementById("circle");
+    const scoreEl = document.getElementById("score");
+    let score = 0;
+    // Set the initial position of the circle
+    circle.style.left = "250px";
+    circle.style.top = "250px";
+// Add mouse event listener
+document.addEventListener("mousemove", event => {
+    // Update the position of the circle to match the mouse position
+    circle.style.left = event.clientX - 25 + "px";
+    circle.style.top = event.clientY - 25 + "px";
+
+    // Check if the circle is touching the target
+    if (isTouching(circle, target)) {
+        score++;
+        scoreEl.innerHTML = `Score: ${score}`;
+        createTarget();
+    }
+});
+
+let x;
+let y;
+
+// Add touch event listeners
+document.addEventListener("touchstart", event => {
+    x = event.touches[0].clientX;
+    y = event.touches[0].clientY;
+}, false);
+document.addEventListener("touchmove", event => {
+    event.preventDefault();
+    const xUp = event.touches[0].clientX;
+    const yUp = event.touches[0].clientY;
+    const xDiff = x - xUp;
+    const yDiff = y - yUp;
+    // Update the position of the circle
+    circle.style.left = (circle.offsetLeft - xDiff) + "px";
+    circle.style.top = (circle.offsetTop - yDiff) + "px";
+    x = xUp;
+    y = yUp;
+  
+    // Check if the circle is touching the target
+    if (isTouching(circle, target)) {
+        score++;
+        scoreEl.innerHTML = `Score: ${score}`;
+        createTarget();
+    }
+}, false);
+
+    // Create a new target
+    let target;
+    function createTarget() {
+        target = document.createElement('div');
+        target.style.width = '50px';
+        target.style.height = '50px';
+        target.style.backgroundColor = 'green';
+        target.style.position = 'absolute';
+        target.style.left = Math.random() * 450 + 'px';
+        target.style.top = Math.random() * 450 + 'px';
+        document.getElementById('game').appendChild(target);
+    }
+    createTarget();
+    //Check if two elements are touching
+    function isTouching(a, b) {
+        const aRect = a.getBoundingClientRect();
+        const bRect = b.getBoundingClientRect();
+        return !(
+            aRect.top + aRect.height < bRect.top ||
+            aRect.top > bRect.top + bRect.height ||
+            aRect.left + aRect.width < bRect.left ||
+            aRect.left > bRect.left + bRect.width
+        );
+    }
+    </script>
+  </body>
+</html>
