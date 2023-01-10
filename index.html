@@ -45,8 +45,8 @@
     // JavaScript function to play the game
     function play(userChoice) {
       document.getElementById("rock").disabled = false;
-      document.getElementById("paper").disabled = true;
-      document.getElementById("scissors").disabled = true;
+      document.getElementById("paper").disabled = false;
+      document.getElementById("scissors").disabled = false;
       document.getElementById("reset").disabled = false;      
       let computerChoice = Math.random();
       if (computerChoice < 0.34) {
