@@ -53,6 +53,7 @@
         setBoxPosition();
         setTimeout(countdown, 1000);
         boxEl.addEventListener("touchstart", increaseScore);
+        boxEl.addEventListener("mousedown", increaseScore);
         startButton.style.display = "none";
       }
     }
@@ -85,6 +86,7 @@
       gameStarted = false;
       alert("Game Over! Your score is " + score);
       boxEl.removeEventListener("touchstart", increaseScore);
+      boxEl.removeEventListener("mousedown", increaseScore);
       startButton.style.display = "block";
       score = 0;
       time = 30;
