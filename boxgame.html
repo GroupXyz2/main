@@ -25,7 +25,7 @@
     <div id="score">Score: 0</div>
     <div id="time">Time: 30</div>
     <div class="box" id="box"></div>
-    <button id="start-button" onclick="startGame()">Start</button>
+    <button id="start-button">Start</button>
   </div>
   <script>
     let score = 0;
@@ -36,6 +36,8 @@
     const boxEl = document.getElementById("box");
     const startButton = document.getElementById("start-button");
 
+    startButton.addEventListener("click", startGame);
+    
     function updateScore() {
       scoreEl.innerText = "Score: " + score;
     }
@@ -52,7 +54,6 @@
         boxEl.style.display = "block";
         setBoxPosition();
         setTimeout(countdown, 1000);
-        boxEl.addEventListener("click", increaseScore);
         boxEl.addEventListener("click", increaseScore);
         startButton.style.display = "none";
       }
@@ -85,8 +86,7 @@
     function gameOver() {
       gameStarted = false;
       alert("Game Over! Your score is " + score);
-      boxEl.removeEventListener("touchstart", increaseScore);
-      boxEl.removeEventListener("mousedown", increaseScore);
+      boxEl.removeEventListener("click", increaseScore);
       startButton.style.display = "block";
       score = 0;
       time = 30;
