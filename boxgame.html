@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tap The Box</title>
+  <style>
+    .game-container {
+      width: 300px;
+      height: 300px;
+      position: relative;
+      border: 1px solid black;
+    }
+
+    .box {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      background-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="game-container">
+    <div id="score">Score: 0</div>
+    <div id="time">Time: 30</div>
+    <div class="box" id="box"></div>
+  </div>
+  <script>
+    let score = 0;
+    let time = 30;
+    let gameStarted = false;
+    const scoreEl = document.getElementById("score");
+    const timeEl = document.getElementById("time");
+    const boxEl = document.getElementById("box");
+
+    function updateScore() {
+      scoreEl.innerText = "Score: " + score;
+    }
+
+    function updateTime() {
+      timeEl.innerText = "Time: " + time;
+    }
+
+    function startGame() {
+      gameStarted = true;
+      updateTime();
+      updateScore();
+      boxEl.style.display = "block";
+      setBoxPosition();
+      setTimeout(countdown, 1000);
+    }
+
+    function setBoxPosition() {
+      // Position the box randomly on the screen
+      const x = Math.floor(Math.random() * 250);
+      const y = Math.floor(Math.random() * 250);
+      boxEl.style.left = x + "px";
+      boxEl.style.top = y + "px";
+    }
+
+    function countdown() {
+      if (time > 0 && gameStarted) {
+        time--;
+        updateTime();
+        setTimeout(countdown, 1000);
+      } else {
+        gameOver();
+      }
+    }
+
+    function gameOver() {
+      gameStarted = false;
+      alert("Game Over! Your score is " + score);
+      score = 0;
+      time = 30;
+      boxEl.style.display = "none";
+    }
+
+    boxEl.addEventListener("click", function() {
+      if (gameStarted) {
+        score++;
+        updateScore();
+        setBoxPosition();
+      }
+    });
+  </script>
+</body>
+
+</html>
+
