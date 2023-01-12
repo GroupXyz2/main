@@ -87,16 +87,18 @@ document.addEventListener("touchmove", event => {
 }, false);
     // Create a new target
     let target;
-    function createTarget() {
-        target = document.createElement('div');
-        target.style.width = '50px';
-        target.style.height = '50px';
-        target.style.backgroundColor = 'green';
-        target.style.position = 'absolute';
-        target.style.left = Math.random() * 450 + 'px';
-        target.style.top = Math.random() * 450 + 'px';
-        document.getElementById('game').appendChild(target);
-    }
+function createTarget() {
+    target = document.createElement('div');
+    target.style.width = '50px';
+    target.style.height = '50px';
+    target.style.backgroundColor = 'gold';
+    target.style.borderRadius = '50%';
+    target.style.boxShadow = '1px 1px 3px gray';
+    target.style.position = 'absolute';
+    target.style.left = Math.random() * 450 + 'px';
+    target.style.top = Math.random() * 450 + 'px';
+    document.getElementById('game').appendChild(target);
+}
     createTarget();
     //Check if two elements are touching
     function isTouching(a, b) {
