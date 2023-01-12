@@ -124,10 +124,24 @@
   return false;
 }
       // Function to create the food at a random position
-      function createFood() {
-        food.x = Math.floor(Math.random() * 39) * 10;
-        food.y = Math.floor(Math.random() * 39) * 10;
-      }
+  function createFood() {
+  food.x = Math.floor(Math.random() * 39) * 10;
+  food.y = Math.floor(Math.random() * 39) * 10;
+
+  //Check if the food is on the snake
+  for (let i = 0; i < snake.length; i++) {
+    if (food.x === snake[i].x && food.y === snake[i].y) {
+      createFood();
+      return;
+    }
+  }
+    
+  let foodElem = document.createElement('div');
+  foodElem.classList.add('food');
+  foodElem.style.left = food.x + 'px';
+  foodElem.style.top = food.y + 'px';
+  document.getElementById('game').appendChild(foodElem);
+}
       function createWalls() {
       let walls = document.createElement('div');
       walls.style.width = '400px';
