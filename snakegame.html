@@ -127,6 +127,17 @@
         food.x = Math.floor(Math.random() * 39) * 10;
         food.y = Math.floor(Math.random() * 39) * 10;
       }
+      function createWalls() {
+      let walls = document.createElement('div');
+      walls.style.width = '400px';
+      walls.style.height = '400px';
+      walls.style.backgroundColor = 'white';
+      walls.style.position = 'absolute';
+      walls.style.left = '0px';
+      walls.style.top = '0px';
+      walls.style.border = '1px solid black';
+      document.getElementById('game').appendChild(walls);
+    }
       // Add event listeners for touch events to control the snake's movement
      document.getElementById('game').addEventListener('touchstart', handleTouchStart);
     document.getElementById('game').addEventListener('touchmove', handleTouchMove);
