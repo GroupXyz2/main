@@ -45,7 +45,9 @@
       // Initialize the game loop
       let gameLoop = setInterval(update, 100);
       // Create the initial food
-      createFood(20);
+      for (let i = 0; i < 20; i++) {
+  createFood();
+}
      function reset() {
   snake = [
     { x: 200, y: 200 },
