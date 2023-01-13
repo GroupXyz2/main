@@ -39,6 +39,8 @@ body {
     <button id="pause-button">Pause</button>
 
    <script>
+     document.getElementById("pause-button").addEventListener("click", pauseGame);
+
       // Initialize the snake segments and their starting positions
       let snake = [
         { x: 200, y: 200 },
@@ -94,7 +96,6 @@ function pauseGame() {
   if (!gamePaused) {
     clearInterval(gameLoop);
     gamePaused = true;
-    document.getElementById("pause-button").addEventListener("click", pauseGame);
   } else {
     gameLoop = setInterval(update, 100);
     gamePaused = false;
