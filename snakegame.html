@@ -125,7 +125,7 @@ body {
      function checkCollision(x, y) {
   for (let i = 1; i < snake.length; i++) {
     if (snake[i].x === x && snake[i].y === y) {
-      return true;
+      return false;
     }
   }
   return false;
