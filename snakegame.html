@@ -39,7 +39,9 @@ body {
     <button id="pause-button">Pause</button>
 
    <script>
-     document.getElementById("pause-button").addEventListener("click", pauseGame);
+     window.onload = function(){
+  document.getElementById("pause-button").addEventListener("click", pauseGame);
+}
 
       // Initialize the snake segments and their starting positions
       let snake = [
