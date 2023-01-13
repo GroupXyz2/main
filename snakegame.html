@@ -93,6 +93,7 @@ body {
             break;
         }
         let gamePaused = false;
+      }
 
 function pauseGame() {
   if (!gamePaused) {
@@ -102,7 +103,6 @@ function pauseGame() {
     gameLoop = setInterval(update, 100);
     gamePaused = false;
   }
-}
 
         // Check for collision with the walls or with the snake's body
         if (nextPosition.x < 0 || nextPosition.x > 390 || nextPosition.y < 0 || nextPosition.y > 390 || checkCollision(nextPosition.x, nextPosition.y)) {
