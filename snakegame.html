@@ -37,7 +37,7 @@ body {
     <div id="score">Score: 0</div>
     <button id="reset-button" onclick="reset()">Reset</button>
     <button id="pause-button">Pause</button>
-    
+
    <script>
       // Initialize the snake segments and their starting positions
       let snake = [
@@ -94,6 +94,7 @@ function pauseGame() {
   if (!gamePaused) {
     clearInterval(gameLoop);
     gamePaused = true;
+    document.getElementById("pause-button").addEventListener("click", pauseGame);
   } else {
     gameLoop = setInterval(update, 100);
     gamePaused = false;
