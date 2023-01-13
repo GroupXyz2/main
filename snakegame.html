@@ -43,6 +43,12 @@ body {
   document.getElementById("pause-button").addEventListener("click", pauseGame);
 }
 
+  let snake, direction, gameLoop, gamePaused;
+snake = [{ x: 200, y: 200 }, { x: 190, y: 200 }, { x: 180, y: 200 }];
+direction = 'right';
+gamePaused = false;
+gameLoop = setInterval(update, 100);
+    
       // Initialize the snake segments and their starting positions
       let snake = [
         { x: 200, y: 200 },
