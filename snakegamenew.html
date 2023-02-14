@@ -183,7 +183,7 @@ function pause() {
 
   // Check for collision with the walls or with the player's snake
   if (nextPosition.x < 0 || nextPosition.x > 390 || nextPosition.y < 0 || nextPosition.y > 390 || checkCollision(nextPosition.x, nextPosition.y, snake)) {
-    enemySnake.pop(); enemySnake.pop(); enemySnake.pop(); enemySnake.pop(); enemySnake.pop();
+    enemySnake.pop(); enemySnake.pop(); enemySnake.pop();
     return;
   }
 
