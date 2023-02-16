@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plane Game</title>
+    <style>
+      canvas {
+        border: 1px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      // Variables
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      var plane = { x: 200, y: 200, width: 50, height: 50, speed: 5 };
+      var earth = { x: 150, y: 370, width: 100, height: 30 };
+      var score = 0;
+      var touchStartX = null;
+
+      // Functions
+      function draw() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw plane
+        ctx.fillStyle = "#f00";
+        ctx.fillRect(plane.x, plane.y, plane.width, plane.height);
+
+        // Draw earth
+        ctx.fillStyle = "#0f0";
+        ctx.fillRect(earth.x, earth.y, earth.width, earth.height);
+
+        // Update score
+        ctx.fillStyle = "#000";
+        ctx.font = "20px Arial";
+        ctx.fillText("Score: " + score, 10, 30);
+      }
+
+      function update() {
+        // Move plane
+        if (touchStartX !== null) {
+          var touchX = event.changedTouches[0].clientX;
+          var touchDeltaX = touchX - touchStartX;
+          if (touchDeltaX > 10) {
+            plane.x += plane.speed;
+          } else if (touchDeltaX < -10) {
+            plane.x -= plane.speed;
+          }
+        }
+        if (plane.x < 0) {
+          plane.x = 0;
+        }
+        if (plane.x > canvas.width - plane.width) {
+          plane.x = canvas.width - plane.width;
+        }
+        if (plane.y < 0) {
+          plane.y = 0;
+        }
+        if (plane.y > canvas.height - plane.height) {
+          plane.y = canvas.height - plane.height;
+        }
+
+        // Check for collision with earth
+        if (
+          plane.x < earth.x + earth.width &&
+          plane.x + plane.width > earth.x &&
+          plane.y < earth.y + earth.height &&
+          plane.y + plane.height > earth.y
+        ) {
+          // Collision detected
+          alert("Game over! Your score is: " + score);
+          document.location.reload();
+        }
+
+        // Increase score
+        score += 1;
+      }
+
+      // Touch input
+      canvas.addEventListener("touchstart", function (event) {
+        event.preventDefault();
+        touchStartX = event.changedTouches[0].clientX;
+      });
+      canvas.addEventListener("touchmove", function (event) {
+        event.preventDefault();
+      });
+      canvas.addEventListener("touchend", function (event) {
+        event.preventDefault();
+        touchStartX = null;
+      });
+
+      // Game loop
+      setInterval(function () {
+        draw();
+        update();
+      }, 1000 / 60);
+    </script>
+  </body>
+</html>
