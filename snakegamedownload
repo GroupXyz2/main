@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Styling for the game board */
+      #game {
+        width: 400px;
+        height: 400px;
+        border: 1px solid black;
+        position: relative;
+      }
+      /* Styling for the snake segments */
+      .snake-segment {
+        width: 10px;
+        height: 10px;
+        background-color: green;
+        position: absolute;
+      }
+      /* Styling for the food */
+      .food {
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        position: absolute;
+      }
+      html {
+  overflow: hidden;
+}
+body {
+  overflow: hidden;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="game"></div>
+    <div id="score">Score: 0</div>
+    <button id="reset-button" onclick="reset()">Reset</button>
+    <button id="pause-button" onclick="pause()">Pause</button>
+
+   <script>
+     window.onload = function(){
+  document.getElementById("pause-button").addEventListener("click", pauseGame);
+}
+
+      // Initialize the snake segments and their starting positions
+      let snake = [
+        { x: 200, y: 200 },
+        { x: 190, y: 200 },
+        { x: 180, y: 200 }
+      ];
+      // Initialize the direction of the snake's movement
+      let direction = 'right';
+      // Initialize the food position
+      let food = { x: 0, y: 0 };
+      // Initialize the score
+      let score = 0;
+      // Initialize the game loop
+      let gameLoop = setInterval(update, 100);
+      // Create the initial food
+     createFood();
+     function reset() {
+  snake = [
+    { x: 200, y: 200 },
+    { x: 190, y: 200 },
+    { x: 180, y: 200 }
+  ];
+  direction = 'right';
+  food = { x: 0, y: 0 };
+  score = 0;
+  clearInterval(gameLoop);
+  gameLoop = setInterval(update, 100);
+  createFood();
+  createFoodAmount(20);
+  document.getElementById('score').innerHTML = 'Score: 0';
+}
+      // Function to update the snake's position and render it on the screen
+      function update() {
+        // Move the snake in the current direction
+        let nextPosition = { x: snake[0].x, y: snake[0].y };
+        switch (direction) {
+          case 'up':
+            nextPosition.y -= 10;
+            break;
+          case 'down':
+            nextPosition.y += 10;
+            break;
+          case 'left':
+            nextPosition.x -= 10;
+            break;
+          case 'right':
+            nextPosition.x += 10;
+            break;
+        }
+        let gamePaused = false;
+
+function pause() {
+  if (!gamePaused) {
+    clearInterval(gameLoop);
+    gamePaused = true;
+  } else {
+    gameLoop = setInterval(update, 100);
+    gamePaused = false;
+  }
+}
+
+        // Check for collision with the walls or with the snake's body
+        if (nextPosition.x < 0 || nextPosition.x > 390 || nextPosition.y < 0 || nextPosition.y > 390 || checkCollision(nextPosition.x, nextPosition.y)) {
+          clearInterval(gameLoop);
+          alert('Game over! Your score is ' + score);
+          return;
+        }
+        // Check for collision with the food
+        if (nextPosition.x === food.x && nextPosition.y === food.y) {
+          createFood();
+          score++;
+          document.getElementById('score').innerHTML = 'Score: ' + score;
+        } else {
+          // Remove the last segment of the snake
+          snake.pop();
+        }
+        // Add the next position to the front of the snake
+        snake.unshift(nextPosition);
+        // Clear the game board
+        let game = document.getElementById('game');
+        game.innerHTML = '';
+        // Render the snake on the screen
+        for (let i = 0; i < snake.length; i++) {
+          let snakeSegment = document.createElement('div');
+          snakeSegment.classList.add('snake-segment');
+          snakeSegment.style.left = snake[i].x + 'px';
+          snakeSegment.style.top = snake[i].y + 'px';
+          game.appendChild(snakeSegment);
+        }
+        // Render the food on the screen
+        let foodEl = document.createElement('div');
+        foodEl.classList.add('food');
+        foodEl.style.left = food.x + 'px';
+        foodEl.style.top = food.y + 'px';
+        game.appendChild(foodEl);
+      }
+      // Function to check for collision with the snake's body
+     function checkCollision(x, y) {
+  for (let i = 1; i < snake.length; i++) {
+    if (snake[i].x === x && snake[i].y === y) {
+      return false;
+    }
+  }
+  return false;
+}
+      // Function to create the food at a random position
+  function createFood() {
+  food.x = Math.floor(Math.random() * 39) * 10;
+  food.y = Math.floor(Math.random() * 39) * 10;
+
+  //Check if the food is on the snake
+  for (let i = 0; i < snake.length; i++) {
+    if (food.x === snake[i].x && food.y === snake[i].y) {
+      createFood();
+      return;
+    }
+  }
+    
+  let foodElem = document.createElement('div');
+  foodElem.classList.add('food');
+  foodElem.style.left = food.x + 'px';
+  foodElem.style.top = food.y + 'px';
+  document.getElementById('game').appendChild(foodElem);
+}
+      function createWalls() {
+      let walls = document.createElement('div');
+      walls.style.width = '400px';
+      walls.style.height = '400px';
+      walls.style.backgroundColor = 'white';
+      walls.style.position = 'absolute';
+      walls.style.left = '0px';
+      walls.style.top = '0px';
+      walls.style.border = '1px solid black';
+      document.getElementById('game').appendChild(walls);
+    }
+      // Add event listeners for touch events to control the snake's movement
+     document.getElementById('game').addEventListener('touchstart', handleTouchStart);
+    document.getElementById('game').addEventListener('touchmove', handleTouchMove);
+    let initialX;
+    let initialY;
+    function handleTouchStart(event) {
+        initialX = event.touches[0].clientX;
+        initialY = event.touches[0].clientY;
+    }
+    function handleTouchMove(event) {
+        event.preventDefault();
+        let currentX = event.touches[0].clientX;
+        let currentY = event.touches[0].clientY;
+        if (Math.abs(currentX - initialX) > Math.abs(currentY - initialY)) {
+          // Handle horizontal movement
+          if (currentX > initialX) {
+            direction = 'right';
+          } else {
+            direction = 'left';
+          }
+        } else {
+          // Handle vertical movement
+          if (currentY > initialY) {
+            direction = 'down';
+          } else {
+            direction = 'up';
+          }
+        }
+    }
+ 
+    </script>
+  </body>
+</html>
