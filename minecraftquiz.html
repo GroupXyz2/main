@@ -146,7 +146,6 @@
 		answerElem.style.display = "none";
 		submitBtn.style.display = "none";
 		setTimeout(function() {
-		}	
 			sortQuestionsByLevel(); // Fragen nach Schwierigkeitsgrad sortieren
 			askQuestion();
 			answerElem.style.display = "inline-block";
@@ -161,7 +160,9 @@
 	}
 
 	submitBtn.addEventListener("click", checkAnswer);
-	
+		
+	sortQuestionsByLevel(); // Fragen nach Schwierigkeitsgrad sortieren
+	askQuestion();
 </script>
 </body>
 </html>
