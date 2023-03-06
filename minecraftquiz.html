@@ -1,156 +1,172 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Minecraft Quiz</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			text-align: center;
-		}
-		h1 {
-			font-size: 36px;
-			margin-bottom: 20px;
-		}
-		button {
-			padding: 10px 20px;
-			font-size: 18px;
-			border-radius: 5px;
-			background-color: #007bff;
-			color: #fff;
-			border: none;
-			cursor: pointer;
-			margin-top: 20px;
-		}
-		input[type="text"] {
-			padding: 10px;
-			font-size: 18px;
-			border-radius: 5px;
-			border: 1px solid #ccc;
-			width: 300px;
-			margin-top: 20px;
-		}
-	</style>
+    <meta charset="utf-8">
+    <title>Minecraft Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 300px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-	<h1>Minecraft Quiz</h1>
-	<p>Test your knowledge of Minecraft by answering the following questions:</p>
+    <h1>Minecraft Quiz</h1>
+    <p>Test your knowledge of Minecraft by answering the following questions:</p>
 
-	<div id="game">
-		<p id="question"></p>
-		<input type="text" id="answer">
-		<button id="submit">Submit Answer</button>
-		<p id="result"></p>
-	</div>
-
-	<script>
-		var questions = [
-			{
-				question: "What is the name of the main character in Minecraft?",
-				answer: ["Steve", "Alex"],
-				level: 1
-			},
-			{
-				question: "What is the name of the block that can be used to craft a nether portal?",
-				answer: "Obsidian",
-				level: 1
-			},
-			{
-				question: "What is the name of the boss mob that can be found in the End dimension?",
-				answer: "Ender Dragon",
-				level: 1
-			},
-			{
-				question: "What is the name of the block/item that can be used to make circuits?",
-				answer: "Redstone",
-				level: 1
-			},
-			{
-				question: "What is the maximum level that can be achieved in Minecraft?",
-				answer: "Level 64",
-				level: 3
-			},
-			{
-				question: "What is the name of the rare biome that consists of giant mushrooms?",
-				answer: "Mushroom Island",
-				level: 2
-			},
-			{
-				question: "Will the Egg you get, when you defeated the Ender Dragon, hatch a little Dragon?",
-				answer: "No",
-				level: 2
-			},
-			{
-				question: "What is the name of the hostile mob that can drop Bottles?",
-				answer: "Witch",
-				level: 2
-			},
-			{
-				question: "What is the name of the block that can be used to make a respawn point in the Nether?",
-				answer: "Respawn Anchor",
-				level: 2
-			},
-			{
-				question: "Final Question: What is the name of the item that is required to tame Axelotls?",
-				answer: "Bucket of Tropic Fish",
-				level: 3
-			}
-		];
-
-		var currentQuestion = 0;
-		var score = 0;
-		var level = 1;
-
-		var questionElem = document.getElementById("question");
-		var answerElem = document.getElementById("answer");
-		var resultElem = document.getElementById("result");
-		var submitBtn = document.getElementById("submit");
-
-		function askQuestion() {
-			questionElem.innerHTML = questions[currentQuestion].question;
-			answerElem.value = "";
-			resultElem.innerHTML = "";
+    <div id="game">
+        <p id="question"></p>
+        <input type="text" id="answer">
+        <button id="submit">Submit Answer</button>
+        <p id="result"></p>
+    </div>
+    <script>
+	var questions = [
+		{
+			question: "What is the name of the main character in Minecraft?",
+			answer: "Steve",
+			level: 1
+		},
+		{
+			question: "What is the name of the block that can be used to craft a nether portal?",
+			answer: "Obsidian",
+			level: 1
+		},
+		{
+			question: "What is the name of the boss mob that can be found in the End dimension?",
+			answer: "Ender Dragon",
+			level: 1
+		},
+		{
+			question: "What is the name of the block/item that can be used to make circuits?",
+			answer: "Redstone",
+			level: 1
+		},
+		{
+			question: "What is the name of the rare biome that consists of giant mushrooms?",
+			answer: "Mushroom Island",
+			level: 2
+		},
+		{
+			question: "Will the Egg you get, when you defeated the Ender Dragon, hatch a little Dragon?",
+			answer: "No",
+			level: 2
+		},
+		{
+			question: "What is the name of the hostile mob that can drop Bottles?",
+			answer: "Witch",
+			level: 2
+		},
+		{
+			question: "What is the name of the block that can be used to make a respawn point in the Nether?",
+			answer: "Respawn Anchor",
+			level: 2
+		},
+		{
+			question: "What is the maximum level that can be achieved in Minecraft?",
+			answer: "Level 64",
+			level: 3
+		},
+		{
+			question: "Final Question: What is the name of the item that is required to tame Axelotls?",
+			answer: "Bucket of Tropic Fish",
+			level: 3
 		}
+	];
 
-		function checkAnswer() {
-			var answer = answerElem.value.trim().toLowerCase();
-			if (answer === questions[currentQuestion].answer.toLowerCase()) {
-				resultElem.innerHTML = "Correct!";
-				score++;
-			} else {
-				resultElem.innerHTML = "Sorry, the correct answer was " + questions[currentQuestion].answer;
-			}
-			currentQuestion++;
-			if (currentQuestion >= questions.length) {
-				endGame();
-			} else if (questions[currentQuestion].level > level) {
-				levelUp();
-			} else {
-				askQuestion();
-			}
+	// Sort the questions by level
+	questions.sort(function(a, b) {
+		return a.level - b.level;
+	});
+
+	var currentQuestion = 0;
+	var score = 0;
+	var level = 1;
+
+	var questionElem = document.getElementById("question");
+	var answerElem = document.getElementById("answer");
+	var resultElem = document.getElementById("result");
+	var submitBtn = document.getElementById("submit");
+
+	function askQuestion() {
+		questionElem.innerHTML = questions[currentQuestion].question;
+		answerElem.value = "";
+		resultElem.innerHTML = "";
+	}
+
+	function checkAnswer() {
+		var answer = answerElem.value.trim().toLowerCase();
+		if (answer === questions[currentQuestion].answer.toLowerCase()) {
+			resultElem.innerHTML = "Correct!";
+			score++;
+		} else {
+			resultElem.innerHTML = "Sorry, the correct answer was " + questions[currentQuestion].answer;
 		}
-
-		function endGame() {
-			questionElem.innerHTML = "Game over! You scored " + score + " out of " + questions.length + ".";
-			answerElem.style.display = "none";
-			submitBtn.style.display = "none";
+		currentQuestion++;
+		if (currentQuestion >= questions.length) {
+			endGame();
+		} else if (questions[currentQuestion].level > level) {
+			levelUp();
+		} else {
+			askQuestion();
 		}
+	}
 
-		function levelUp() {
-			level = questions[currentQuestion].level;
-			questionElem.innerHTML = "Level up! You are now on level " + level + ".";
-			answerElem.style.display = "none";
-			submitBtn.style.display = "none";
-			setTimeout(function() {
-				askQuestion();
-				answerElem.style.display = "inline-block";
-				submitBtn.style.display = "inline-block";
-			}, 2000);
-		}
+	function endGame() {
+		questionElem.innerHTML = "Game over! You scored " + score + " out of " + questions.length + ".";
+		answerElem.style.display = "none";
+		submitBtn.style.display = "none";
+	}
 
-		submitBtn.addEventListener("click", checkAnswer);
+	function levelUp() {
+		level = questions[currentQuestion].level;
+		questionElem.innerHTML = "Level up! You are now on level " + level + ".";
+		answerElem.style.display = "none";
+function levelUp() {
+		level = questions[currentQuestion].level;
+		questionElem.innerHTML = "Level up! You are now on level " + level + ".";
+		answerElem.style.display = "none";
+		submitBtn.style.display = "none";
+		setTimeout(function() {
+			sortQuestionsByLevel(); // Fragen nach Schwierigkeitsgrad sortieren
+			askQuestion();
+			answerElem.style.display = "inline-block";
+			submitBtn.style.display = "inline-block";
+		}, 2000);
+	}
 
-		askQuestion();
-	</script>
+	function sortQuestionsByLevel() {
+		questions.sort(function(a, b) {
+			return a.level - b.level;
+		});
+	}
+
+	submitBtn.addEventListener("click", checkAnswer);
+		
+	sortQuestionsByLevel(); // Fragen nach Schwierigkeitsgrad sortieren
+	askQuestion();
+</script>
 </body>
 </html>
