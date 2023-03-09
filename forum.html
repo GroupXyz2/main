@@ -89,3 +89,69 @@
 		const messageInput = document.getElementById('message');
 		const messagesContainer = document.getElementById('messages');
 	
+		const refreshButton = document.getElementById('refresh');
+
+		// Get a reference to the Firestore database
+		const db = firebase.firestore();
+
+		// Create a function to display messages in the UI
+		function renderMessage(doc) {
+			const data = doc.data();
+			const { username, message, timestamp } = data;
+			const messageElement = document.createElement('div');
+			messageElement.className = 'message';
+			messageElement.innerHTML = `
+				<span class="username">${username}</span>
+				<span class="timestamp">${new Date(timestamp.toMillis()).toLocaleString()}</span>
+				<p>${message}</p>
+			`;
+			messagesContainer.appendChild(messageElement);
+		}
+
+		// Listen for new messages in the Firestore database and display them in the UI
+		db.collection('messages')
+			.orderBy('timestamp')
+			.onSnapshot((snapshot) => {
+				messagesContainer.innerHTML = '';
+				snapshot.docs.forEach((doc) => renderMessage(doc));
+			});
+
+		// Handle form submission
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+
+			const username = 'Guest'; // TODO: Replace with the current user's username
+			const message = messageInput.value.trim();
+
+			if (message) {
+				db.collection('messages')
+					.add({
+						username,
+						message,
+						timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+					})
+					.then(() => {
+						messageInput.value = '';
+					})
+					.catch((error) => {
+						console.error('Error writing message to Firestore', error);
+					});
+			}
+		});
+
+		// Handle refresh button click
+		refreshButton.addEventListener('click', () => {
+			db.collection('messages')
+				.orderBy('timestamp')
+				.get()
+				.then((querySnapshot) => {
+					messagesContainer.innerHTML = '';
+					querySnapshot.forEach((doc) => renderMessage(doc));
+				})
+				.catch((error) => {
+					console.error('Error getting messages from Firestore', error);
+				});
+		});
+	</script>
+</body>
+</html>
