@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat Portal</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+		}
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+		.messages {
+			height: 400px;
+			overflow-y: scroll;
+			padding: 10px;
+			border: 1px solid #ccc;
+		}
+		.message {
+			margin-bottom: 10px;
+		}
+		.username {
+			font-weight: bold;
+			margin-right: 5px;
+		}
+		.timestamp {
+			font-size: 12px;
+			color: #999;
+			margin-left: 5px;
+		}
+		.form {
+			display: flex;
+			margin-top: 10px;
+		}
+		.form input[type="text"] {
+			flex: 1;
+			padding: 10px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-right: 10px;
+		}
+		.form input[type="submit"] {
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			font-size: 16px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		.refresh {
+			background-color: #f2f2f2;
+			border: 1px solid #ccc;
+			padding: 5px 10px;
+			font-size: 16px;
+			border-radius: 5px;
+			cursor: pointer;
+			margin-left: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="messages" id="messages"></div>
+		<form class="form" id="form">
+			<input type="text" id="message" placeholder="Enter your message...">
+			<input type="submit" value="Send">
+		</form>
+		<button class="refresh" id="refresh">Refresh</button>
+	</div>
+
+	<script>
+		// Get references to the DOM elements
+		const form = document.getElementById('form');
+		const messageInput = document.getElementById('message');
+		const messagesContainer = document.getElementById('messages');
+		const refreshButton = document.getElementById('refresh');
+
+		// Function to refresh the messages
+		function refreshMessages() {
+			// Send an AJAX request to get the messages
+			const xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					if (xhr.status === 200) {
+						// Parse the JSON response and display the messages
+						const messages = JSON.parse(xhr.responseText);
+						messagesContainer.innerHTML = '';
+						messages.forEach(message => {
+							// Create a new message element
+							const messageElement = document.createElement('div');
+							messageElement.classList.add('message');
+
+							// Add the username and timestamp to the message element
+							const usernameElement = document.createElement('span');
+							usernameElement.classList.add('username');
+							usernameElement.textContent = message.username;
+							messageElement.appendChild(usernameElement);
+
+							const timestampElement = document.createElement('span');
+							timestampElement.classList.add('timestamp');
+							timestampElement.textContent = message.timestamp;
+							messageElement.appendChild(timestampElement);
+
+							// Add the message text to
+							const messageTextElement = document.createTextNode(message.text);
+							messageElement.appendChild(messageTextElement);
+
+							// Add the message element to the messages container
+							messagesContainer.appendChild(messageElement);
+						});
+					}
+				}
+			};
+			xhr.open('GET', 'messages.json', true);
+			xhr.send();
+		}
+
+		// Function to send a new message
+		function sendMessage() {
+			// Get the message text and clear the input field
+			const messageText = messageInput.value;
+			messageInput.value = '';
+
+			// Send an AJAX request to save the new message
+			const xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					if (xhr.status === 200) {
+						// Refresh the messages
+						refreshMessages();
+					}
+				}
+			};
+			xhr.open('POST', 'save_message.php', true);
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.send('text=' + encodeURIComponent(messageText));
+		}
+
+		// Attach event listeners
+		form.addEventListener('submit', function(event) {
+			event.preventDefault();
+			sendMessage();
+		});
+		refreshButton.addEventListener('click', function() {
+			refreshMessages();
+		});
+
+		// Refresh the messages automatically every 5 seconds
+		setInterval(refreshMessages, 5000);
+	</script>
+</body>
+</html>
