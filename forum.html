@@ -145,6 +145,28 @@
 			}
 		});
 
+		// Handle send button click
+		const sendButton = document.querySelector('input[type="submit"]');
+		sendButton.addEventListener('click', () => {
+			const username = 'Guest'; // TODO: Replace with the current user's username
+			const message = messageInput.value.trim();
+
+			if (message) {
+				db.collection('messages')
+					.add({
+						username,
+						message,
+						timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+					})
+					.then(() => {
+						messageInput.value = '';
+					})
+					.catch((error) => {
+						console.error('Error writing message to Firestore', error);
+					});
+			}
+		});
+
 		// Handle refresh button click
 		refreshButton.addEventListener('click', () => {
 			db.collection('messages')
