@@ -31,6 +31,7 @@
         let mass, velocity, spring, k, x, t, dt, position, velocityVector, accelerationVector, springVector, netVector, arrowSize;
         let isMoving = false;
         let isStopped = false;
+	let isArrowDrawn = true;
 
         function setup() {
             let canvas = createCanvas(800, 600);
@@ -85,9 +86,19 @@
 			strokeWeight(2);
 			ellipse(x, y, m*10);
 		}
+ 
+	       function toggleArrow() {
+                        isArrowDrawn = !isArrowDrawn; // invert the current state
+                }
 
-		function drawArrow(base, vec, myColor) {
-			push();
+               function draw() {
+                        if (isArrowDrawn) {
+                        // draw the arrow
+                       drawArrow(base, vec, myColor);
+                       }
+                      // other drawing code
+		       function drawArrow(base, vec, myColor) {
+		       push();
 			stroke(myColor);
 			strokeWeight(3);
 			fill(myColor);
@@ -97,7 +108,7 @@
 			let arrowSizeAdjusted = arrowSize / 2;
 			triangle(vec.mag()*arrowSizeAdjusted, 0, arrowSizeAdjusted, arrowSizeAdjusted/2, arrowSizeAdjusted, -arrowSizeAdjusted/2);
 			pop();
-		}
+                       }
 
 		function drawAxes() {
 			stroke("black");
