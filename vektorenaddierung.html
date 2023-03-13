@@ -130,18 +130,18 @@
 			isStopped = true;
 		}
 	    
-	    function reset() {
-  isMoving = false;
-  isStopped = false;
-  t = 0;
-  position = createVector(0, height/2);
-  velocityVector = createVector(velocity, 0);
-  accelerationVector = createVector(0, 9.81);
-  springVector = createVector(0, 0);
-  netVector = p5.Vector.add(velocityVector, springVector);
-  k = 1;
+	function reset() {
+    isMoving = false;
+    isStopped = false;
+    t = 0;
+    position = createVector(0, height/2);
+    velocityVector = createVector(velocityInput.value(), 0);
+    accelerationVector = createVector(0, 9.81);
+    springVector = createVector(0, 0);
+    netVector = p5.Vector.add(velocityVector, springVector);
 }
-	
+
+	    
 	</script>	
 	<div id="canvas-container"></div>
 </body>
