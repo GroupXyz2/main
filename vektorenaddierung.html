@@ -129,13 +129,18 @@
 		function stop() {
 			isStopped = true;
 		}
-	    
-	function reset() {
+
+	    function reset() {
     isMoving = false;
     isStopped = false;
+    mass = massInput.value();
+    velocity = velocityInput.value();
+    spring = springInput.value();
+    k = 1 + spring / 100;
     t = 0;
-    position = createVector(0, height/2);
-    velocityVector = createVector(velocityInput.value(), 0);
+    dt = 0.05;
+    position = createVector(0, height / 2);
+    velocityVector = createVector(velocity, 0);
     accelerationVector = createVector(0, 9.81);
     springVector = createVector(0, 0);
     netVector = p5.Vector.add(velocityVector, springVector);
