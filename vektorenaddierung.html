@@ -33,10 +33,10 @@
         let isStopped = false;
 	let isArrowDrawn = true;
 	let isVisible = true;
-	let toggleButton = createButton('Toggle Pfeile');
-toggleButton.mousePressed(function() {
-  isVisible = !isVisible;
-});
+	let toggleButton = createButton('Toggle Pfeile').parent("canvas-container");
+            toggleButton.mousePressed(function() {
+            isVisible = !isVisible;
+         });
 
         function setup() {
             let canvas = createCanvas(800, 600);
