@@ -32,6 +32,11 @@
         let isMoving = false;
         let isStopped = false;
 	let isArrowDrawn = true;
+	let isVisible = true;
+	let toggleButton = createButton('Toggle Pfeile');
+toggleButton.mousePressed(function() {
+  isVisible = !isVisible;
+});
 
         function setup() {
             let canvas = createCanvas(800, 600);
@@ -58,11 +63,13 @@
 		function draw() {
 			background(220);
 			drawAxes();
+			if (isVisible) {
 			drawKugel(position.x, position.y, massInput.value());
 			drawArrow(position, velocityVector, "green");
 			drawArrow(position, accelerationVector, "red");
 			drawArrow(position, springVector, "blue");
 			drawArrow(position, netVector, "purple");
+	              }
 			if (isMoving && !isStopped) {
 				t += dt;
 				x = velocity * t + 0.5 * k * spring * spring * t * t / mass;
@@ -85,19 +92,12 @@
 			stroke("black");
 			strokeWeight(2);
 			ellipse(x, y, m*10);
-		}
- 
-	       function toggleArrow() {
-                        isArrowDrawn = !isArrowDrawn; // invert the current state
-                }
-
-               function draw() {
-                        if (isArrowDrawn) {
-                        // draw the arrow
-                       drawArrow(base, vec, myColor);
-                       }
-                      // other drawing code
+	              }
+		
 		       function drawArrow(base, vec, myColor) {
+			       if (!isVisible) {
+                       return; // nur zeichnen, wenn isVisible true ist
+                      }
 		       push();
 			stroke(myColor);
 			strokeWeight(3);
