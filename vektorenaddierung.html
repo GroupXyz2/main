@@ -33,10 +33,6 @@
         let isStopped = false;
 	let isArrowDrawn = true;
 	let isVisible = true;
-	let toggleButton = createButton('Toggle Pfeile').parent("canvas-container");
-            toggleButton.mousePressed(function() {
-            isVisible = !isVisible;
-         });
 
         function setup() {
             let canvas = createCanvas(800, 600);
@@ -58,6 +54,11 @@
             accelerationVector = createVector(0, 9.81);
             springVector = createVector(0, 0);
             netVector = p5.Vector.add(velocityVector, springVector);
+            toggleButton = createButton('Toggle Pfeile');
+            toggleButton.mousePressed(function() {
+            isVisible = !isVisible;
+          });
+            toggleButton.parent("canvas-container");
         }
 
 		function draw() {
