@@ -1,57 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Vektorenaddierung mit Kugel</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.dom.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
-	<style>
-		canvas {
-			display: block;
-			margin: auto;
-		}
-	</style>
+    <title>Vektorenaddierung mit Kugel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+    <style>
+        canvas {
+            display: block;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-	<h1>Vektorenaddierung mit Kugel</h1>
-	<div>
-		<label for="mass">Masse:</label>
-		<input type="number" id="mass" value="1" min="0.1" max="10" step="0.1">
-		<label for="velocity">Geschwindigkeit:</label>
-		<input type="number" id="velocity" value="10" min="1" max="100" step="1">
-		<label for="spring">Feder:</label>
-		<input type="range" id="spring" value="0" min="0" max="100">
-		<button id="start">Start</button>
-		<button id="stop">Stop</button>
-		<button id="reset">Reset</button>
-	</div>
-	<script>
-		let massInput, velocityInput, springInput, startButton, stopButton, resetButton;
-		let mass, velocity, spring, k, x, t, dt, position, velocityVector, accelerationVector, springVector, netVector, arrowSize;
-		let isMoving = false;
-		let isStopped = false;
+    <h1>Vektorenaddierung mit Kugel</h1>
+    <div>
+        <label for="mass">Masse:</label>
+        <input type="number" id="mass" value="1" min="0.1" max="10" step="0.1">
+        <label for="velocity">Geschwindigkeit:</label>
+        <input type="number" id="velocity" value="10" min="1" max="100" step="1">
+        <label for="spring">Feder:</label>
+        <input type="range" id="spring" value="0" min="0" max="100">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+    </div>
+    <div id="canvas-container"></div>
+    <script>
+        let massInput, velocityInput, springInput, startButton, stopButton, resetButton;
+        let mass, velocity, spring, k, x, t, dt, position, velocityVector, accelerationVector, springVector, netVector, arrowSize;
+        let isMoving = false;
+        let isStopped = false;
 
-		function setup() {
-			let canvas = createCanvas(800, 600);
-			canvas.parent("canvas-container");
-			massInput = select("#mass");
-			velocityInput = select("#velocity");
-			springInput = select("#spring");
-			startButton = select("#start");
-			stopButton = select("#stop");
-			resetButton = select("#reset");
-			startButton.mousePressed(start);
-			stopButton.mousePressed(stop);
-			resetButton.mousePressed(reset);
-			arrowSize = 20;
-			t = 0;
-			dt = 0.05;
-			position = createVector(0, height/2);
-			velocityVector = createVector(velocity, 0);
-			accelerationVector = createVector(0, 9.81);
-			springVector = createVector(0, 0);
-			netVector = p5.Vector.add(velocityVector, springVector);
-		}
+        function setup() {
+            let canvas = createCanvas(800, 600);
+            canvas.parent("canvas-container");
+            massInput = select("#mass");
+            velocityInput = select("#velocity");
+            springInput = select("#spring");
+            startButton = select("#start");
+            stopButton = select("#stop");
+            resetButton = select("#reset");
+            startButton.mousePressed(start);
+            stopButton.mousePressed(stop);
+            resetButton.mousePressed(reset);
+            arrowSize = 20;
+            t = 0;
+            dt = 0.05;
+            position = createVector(0, height/2);
+            velocityVector = createVector(velocity, 0);
+            accelerationVector = createVector(0, 9.81);
+            springVector = createVector(0, 0);
+            netVector = p5.Vector.add(velocityVector, springVector);
+        }
 
 		function draw() {
 			background(220);
