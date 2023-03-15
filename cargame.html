@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Autorennen</title>
+	<style>
+		#canvas {
+			background-color: #eee;
+			border: 1px solid #000;
+		}
+
+		.car {
+			width: 60px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="600"></canvas>
+	<div class="car" id="car"></div>
+	<script>
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+
+		var car = document.getElementById("car");
+
+		// Anfangswerte für das Auto
+		var carX = canvas.width / 2 - 30;
+		var carY = canvas.height - 120;
+		var carSpeed = 5;
+
+		// Anfangswerte für die Ki
+		var kiX = canvas.width / 2 - 30;
+		var kiY = 20;
+		var kiSpeed = 5;
+
+		// Status der Tasten
+		var keys = {
+			left: false,
+			right: false
+		};
+
+		// Touch-Status
+		var touch = {
+			x: null,
+			y: null
+		};
+
+		// Kollisionsprüfung zwischen zwei Rechtecken
+		function rectOverlap(r1, r2) {
+			return !(r2.x > (r1.x + r1.width) || 
+				(r2.x + r2.width) < r1.x || 
+				r2.y > (r1.y + r1.height) ||
+				(r2.y + r2.height) < r1.y);
+		}
+
+		// Event-Listener für Tastendrücke
+		document.addEventListener("keydown", function(e) {
+			if (e.keyCode == 37) { // links
+				keys.left = true;
+			}
+			if (e.keyCode == 39) { // rechts
+				keys.right = true;
+			}
+		});
+
+		document.addEventListener("keyup", function(e) {
+			if (e.keyCode == 37) { // links
+				keys.left = false;
+			}
+			if (e.keyCode == 39) { // rechts
+				keys.right = false;
+			}
+		});
+
+		// Event-Listener für Touch-Steuerung
+		canvas.addEventListener("touchstart", function(e) {
+			touch.x = e.touches[0].clientX;
+			touch.y = e.touches[0].clientY;
+		});
+
+		canvas.addEventListener("touchmove", function(e) {
+			e.preventDefault();
+			var touchX = e.touches[0].clientX;
+			var touchY = e.touches[0].clientY;
+			var diffX = touchX - touch.x;
+			var diffY = touchY - touch.y;
+
+			if (Math.abs(diffX) > Math.abs(diffY)) {
+				if (diffX > 0) {
+					keys.right = true;
+					keys.left = false;
+				} else {
+					keys.left = true;
+					keys.right = false;
+				}
+			} else {
+				keys.left = false;
+				keys.right = false;
+			}
+		});
+
+			// Haupt-Loop
+		function draw() {
+			// Bewegung des Autos
+			if (keys.left && carX > 0) {
+				carX -= carSpeed;
+			}
+			if (keys.right && carX < canvas.width - 60) {
+				carX += carSpeed;
+			}
+
+			// Bewegung der Ki
+			if (kiX <= 0 || kiX >= canvas.width - 60) {
+				kiSpeed *= -1;
+			}
+			kiX += kiSpeed;
+
+			// Kollision mit Ki
+			if (rectOverlap({x: carX, y: carY, width: 60, height: 100}, {x: kiX, y: kiY, width: 60, height: 100})) {
+				alert("Kollision! Spiel vorbei.");
+				window.location.reload();
+			}
+
+			// Löschen des Canvas und Zeichnen des Autos und der Ki
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = "red";
+			ctx.fillRect(carX, carY, 60, 100);
+			ctx.fillStyle = "blue";
+			ctx.fillRect(kiX, kiY, 60, 100);
+
+			// Wiederholung
+			requestAnimationFrame(draw);
+		}
+
+		// Starten des Haupt-Loops
+		requestAnimationFrame(draw);
+	</script>
+</body>
+</html>
