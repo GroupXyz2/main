@@ -6,21 +6,22 @@
 		body {
 			background-color: black;
 		}
-		.links {
+		.container {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
 			height: 100vh;
 		}
+		.links {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 50px;
+		}
 		.text {
-			position: absolute;
-			top: 20%;
-			left: 50%;
-			transform: translateX(-50%);
 			color: white;
-			font-family: Arial, sans-serif;
-			z-index: 1;
+			margin-bottom: 50px;
 		}
 		.links a {
 			display: block;
@@ -35,13 +36,15 @@
 	</style>
 </head>
 <body>    
-	<div class="text">
-		<p>Website für das Create-Projekt</p>
-	</div>
-	
-	<div class="links">
-		<a href="minecraft.html"><img src="https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/92d9913110cf79db5813e6335f97c6dc689854ee/assets/svg/logos/minecraft-core-brand.svg" alt="Minecraft Server"></a>
-		<a href="https://discord.gg/kct5ENcjSd"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b5061df29d55a92d945_full_logo_blurple_RGB.svg" alt="Discord Server"></a>
+	<div class="container">
+		<div class="text">
+			<p>Website für das Create-Projekt</p>
+		</div>
+		
+		<div class="links">
+			<a href="minecraft.html"><img src="https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/92d9913110cf79db5813e6335f97c6dc689854ee/assets/svg/logos/minecraft-core-brand.svg" alt="Minecraft Server"></a>
+			<a href="https://discord.gg/kct5ENcjSd"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b5061df29d55a92d945_full_logo_blurple_RGB.svg" alt="Discord Server"></a>
+		</div>
 	</div>
 </body>
 </html>
