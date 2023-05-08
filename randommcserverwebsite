@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mein Minecraft und Discord Server</title>
+	<style>
+		body {
+			background-color: black;
+		}
+		.links {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+		.links a {
+			display: block;
+			margin: 20px;
+			padding: 10px;
+			border-radius: 10px;
+		}
+		.links img {
+			width: 200px;
+			height: auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="links">
+		<a href="minecraftserverseite.example"><img src="minecraft-bild.png" alt="Minecraft Server"></a>
+		<a href="https://discord.gg/kct5ENcjSd"><img src="discord-bild.png" alt="Discord Server"></a>
+	</div>
+</body>
+</html>
