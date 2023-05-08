@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Unser Team | BetterCreate-Server</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 18px;
+			line-height: 1.5;
+			background-color: #272727;
+			color: #fff;
+			margin: 0;
+		}
+		.container {
+			max-width: 960px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+		.heading {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		.heading h1 {
+			font-size: 48px;
+			font-weight: bold;
+			text-transform: uppercase;
+			margin: 0;
+		}
+		.member {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			margin-bottom: 50px;
+		}
+		.member img {
+			flex: 1 1 300px;
+			max-width: 100%;
+			height: auto;
+			margin-right: 40px;
+		}
+		.member-info {
+			flex: 1 1 400px;
+		}
+		.member h2 {
+			font-size: 36px;
+			font-weight: bold;
+			margin: 0 0 20px 0;
+		}
+		.member p {
+			font-size: 20px;
+			margin: 0;
+		}
+		@media (max-width: 768px) {
+			.member {
+				flex-direction: column;
+			}
+			.member img {
+				margin-right: 0;
+				margin-bottom: 20px;
+			}
+			.member-info {
+				margin-bottom: 20px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="heading">
+			<h1>BetterCreate-Server</h1>
+		</div>
+		
+		<div class="member">
+			<img src="https://en.wikipedia.org/wiki/Steve_%28Minecraft%29#/media/File:Steve_(Minecraft).png" alt="(Unser Team)">
+			<div class="member-info">
+				<h2>Unser Team:</h2>
+				<p>(Beschreibung des Teams hier!)</p>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>
