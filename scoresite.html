@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Score Receiver</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Score Receiver</h1>
+
+    <table id="scoreTable">
+        <thead>
+            <tr>
+                <th>Score</th>
+                <th>Datum</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Funktion zum Empfangen und Anzeigen der Score-Daten
+        function receiveAndDisplayScores() {
+            // GET-Anfrage an die GitHub-Seite senden
+            $.get("scoredata.json", function(data) {
+                // Daten in die Tabelle einfügen
+                var tbody = $("#scoreTable tbody");
+                tbody.empty();
+
+                $.each(data, function(index, score) {
+                    var row = $("<tr>");
+                    $("<td>").text(score.score).appendTo(row);
+                    $("<td>").text(score.date).appendTo(row);
+                    tbody.append(row);
+                });
+            });
+        }
+
+        // Funktion aufrufen, wenn die Seite geladen wird
+        window.onload = receiveAndDisplayScores;
+    </script>
+</body>
+</html>
