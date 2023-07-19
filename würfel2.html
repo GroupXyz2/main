@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html>
 <head>
   <title>Würfel</title>
@@ -53,7 +53,6 @@
     }
 
     #slider {
-      width: 200px;
       margin-left: 10px;
     }
 
@@ -68,22 +67,33 @@
   <div id="dice">Klicke zum Würfeln</div>
   <div id="slider-container">
     <label for="dice-sides">Maximale Augenzahl:</label>
-    <input type="range" id="dice-sides" min="1" max="100" value="28">
-    <span id="slider-value">6</span>
+    <select id="dice-sides">
+      <!-- Generiere alle Optionen von 1 bis 100 -->
+      <script>
+        var dropdown = document.getElementById("dice-sides");
+        for (var i = 1; i <= 100; i++) {
+          var option = document.createElement("option");
+          option.value = i;
+          option.text = i;
+          dropdown.appendChild(option);
+        }
+      </script>
+    </select>
   </div>
   <button id="roll-button">Los!</button>
 
   <script>
-    var slider = document.getElementById("dice-sides");
-    var sliderValue = document.getElementById("slider-value");
+    var dropdown = document.getElementById("dice-sides");
     
-    slider.addEventListener("input", function() {
-      sliderValue.innerText = slider.value;
+    dropdown.addEventListener("change", function() {
+      var selectedValue = dropdown.value;
+      var sliderValue = document.getElementById("slider-value");
+      sliderValue.innerText = selectedValue;
     });
 
     document.getElementById("roll-button").addEventListener("click", function() {
       var dice = document.getElementById("dice");
-      var sides = parseInt(slider.value);
+      var sides = parseInt(dropdown.value);
       var randomNumber = Math.floor(Math.random() * sides) + 1;
       dice.innerText = randomNumber;
     });
