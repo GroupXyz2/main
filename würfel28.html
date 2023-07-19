@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Würfel</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      color: #333333;
+      margin-top: 20px;
+    }
+
+    #dice {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #333333;
+      border-radius: 10px;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 40px auto;
+      font-size: 30px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #roll-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #333333;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #roll-button:hover {
+      background-color: #555555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Würfel</h1>
+  <div id="dice">Klicke zum Würfeln</div>
+  <button id="roll-button">Los!</button>
+
+  <script>
+    document.getElementById("roll-button").addEventListener("click", function() {
+      var dice = document.getElementById("dice");
+      var randomNumber = Math.floor(Math.random() * 28) + 1;
+      dice.innerText = randomNumber;
+    });
+  </script>
+</body>
+</html>
