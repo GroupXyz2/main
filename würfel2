@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Würfel</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      color: #333333;
+      margin-top: 20px;
+    }
+
+    #dice {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #333333;
+      border-radius: 10px;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 40px auto;
+      font-size: 30px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #roll-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #333333;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #roll-button:hover {
+      background-color: #555555;
+    }
+
+    #slider-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #slider {
+      width: 200px;
+      margin-left: 10px;
+    }
+
+    #slider-value {
+      margin-left: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Würfel</h1>
+  <div id="dice">Klicke zum Würfeln</div>
+  <div id="slider-container">
+    <label for="dice-sides">Anzahl der Seiten:</label>
+    <input type="range" id="dice-sides" min="1" max="100" value="28">
+    <span id="slider-value">28</span>
+  </div>
+  <button id="roll-button">Los!</button>
+
+  <script>
+    var slider = document.getElementById("dice-sides");
+    var sliderValue = document.getElementById("slider-value");
+    
+    slider.addEventListener("input", function() {
+      sliderValue.innerText = slider.value;
+    });
+
+    document.getElementById("roll-button").addEventListener("click", function() {
+      var dice = document.getElementById("dice");
+      var sides = parseInt(slider.value);
+      var randomNumber = Math.floor(Math.random() * sides) + 1;
+      dice.innerText = randomNumber;
+    });
+  </script>
+</body>
+</html>
