@@ -92,6 +92,13 @@
       sliderValue.innerText = selectedValue;
     });
 
+    document.getElementById("dice").addEventListener("click", function() {
+      var dice = document.getElementById("dice");
+      var sides = parseInt(dropdown.value);
+      var randomNumber = Math.floor(Math.random() * sides) + 1;
+      dice.innerText = randomNumber;
+    });
+
     document.getElementById("roll-button").addEventListener("click", function() {
       var dice = document.getElementById("dice");
       var sides = parseInt(dropdown.value);
