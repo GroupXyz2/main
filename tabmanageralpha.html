@@ -123,8 +123,8 @@
     bottom: 10px;
     right: 10px;
     font-size: 12px;
-    color: #ddd;
-  }
+    color: #
+   }
 
   </style>
 </head>
@@ -235,6 +235,41 @@
         tabList.appendChild(listItem);
       }
     }
+
+    
+       // Funktion, um die Cookie-Warnung zu akzeptieren und auszublenden
+    function acceptCookies() {
+      var cookieWarning = document.getElementById('cookie-warning');
+      cookieWarning.style.display = 'none';
+
+      // Speichere den Zustimmungsstatus im Cookie (gültig für 30 Tage)
+      var expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 30);
+      document.cookie = 'cookieConsent=true; expires=' + expirationDate.toUTCString() + '; path=/';
+    }
+
+    // Überprüfe, ob die Cookie-Warnung bereits akzeptiert wurde
+    function checkCookieConsent() {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.indexOf('cookieConsent=') === 0) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // Wenn die Warnung noch nicht akzeptiert wurde, zeige sie an
+    if (!checkCookieConsent()) {
+      var cookieWarning = document.getElementById('cookie-warning');
+      cookieWarning.style.display = 'block';
+    }
+
+    // Event Listener für den "Einverstanden"-Button
+    document.getElementById('accept-cookies').addEventListener('click', acceptCookies);
+
+
 
     // Beim Laden der Seite Tabs laden und rendern
     loadTabs();
