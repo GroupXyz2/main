@@ -126,14 +126,40 @@
     color: #
    }
 
+  #cookie-warning {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+#cookie-warning button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
   </style>
 </head>
 <body>
   <div class="footer">
     Created by GroupXyz
   </div>
-  
 
+  <div id="cookie-warning">
+  Diese Website verwendet Cookies, um ihre Tabs auf ihrem Gerät zu speichern.
+  <button id="accept-cookies">Einverstanden</button>
+</div>
+  
   <div class="container">
     <h1>Tab Manager</h1>
     <form class="add-tab-form" onsubmit="addTab(event)">
