@@ -68,13 +68,13 @@
         transform: rotate(0) scale(1);
       }
       25% {
-        transform: rotate(360deg) scale(1.1);
+        transform: rotate(360deg) scale(0.8);
       }
       50% {
         transform: rotate(720deg) scale(1);
       }
       75% {
-        transform: rotate(1080deg) scale(1.1);
+        transform: rotate(1080deg) scale(0.8);
       }
       100% {
         transform: rotate(1440deg) scale(1);
@@ -120,9 +120,9 @@
       var dice = document.getElementById("dice");
       var sides = parseInt(dropdown.value);
 
-      dice.classList.add("rolling"); // Apply the rolling animation class
+      dice.classList.add("rolling");
 
-      var interval = 200; // Interval for changing the number (milliseconds)
+      var interval = 100; // Interval for changing the number (ms)
       var numIterations = 10; // Number of iterations to change the number
 
       var currentIteration = 0;
@@ -137,8 +137,8 @@
           clearInterval(rollingInterval);
           setTimeout(function () {
             dice.innerText = randomNumber;
-            dice.classList.remove("rolling"); // Remove the rolling animation class
-          }, 200); // A brief delay after stopping the rolling effect
+            dice.classList.remove("rolling"); 
+          }, 200); // delay after stopping rolling
         }
       }, interval);
     });
