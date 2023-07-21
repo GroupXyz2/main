@@ -64,26 +64,26 @@
 
     
   @keyframes rollAnimation {
-    0% {
-      transform: rotate(0);
+      0% {
+        transform: rotate(0) scale(1);
+      }
+      25% {
+        transform: rotate(360deg) scale(1.5);
+      }
+      50% {
+        transform: rotate(720deg) scale(1);
+      }
+      75% {
+        transform: rotate(1080deg) scale(1.5);
+      }
+      100% {
+        transform: rotate(1440deg) scale(1);
+      }
     }
-    25% {
-      transform: rotate(360deg);
-    }
-    50% {
-      transform: rotate(720deg);
-    }
-    75% {
-      transform: rotate(1080deg);
-    }
-    100% {
-      transform: rotate(1440deg);
-    }
-  }
 
-  .rolling {
-    animation: rollAnimation 2s ease-out;
-  }
+    .rolling {
+      animation: rollAnimation 2s ease-out;
+    }
   </style>
 </head>
 <body>
@@ -117,17 +117,31 @@
     });
 
     document.getElementById("dice").addEventListener("click", function () {
-    var dice = document.getElementById("dice");
-    var sides = parseInt(dropdown.value);
-    var randomNumber = Math.floor(Math.random() * sides) + 1;
+      var dice = document.getElementById("dice");
+      var sides = parseInt(dropdown.value);
 
-    dice.classList.add("rolling"); // Apply the rolling animation class
+      dice.classList.add("rolling"); // Apply the rolling animation class
 
-    setTimeout(function () {
-      dice.innerText = randomNumber;
-      dice.classList.remove("rolling"); // Remove the rolling animation class
-    }, 2000); // Set the timeout to match the duration of the animation (2 seconds)
-  });
+      var interval = 200; // Interval for changing the number (milliseconds)
+      var numIterations = 10; // Number of iterations to change the number
+
+      var currentIteration = 0;
+      var randomNumber;
+
+      var rollingInterval = setInterval(function () {
+        randomNumber = Math.floor(Math.random() * sides) + 1;
+        dice.innerText = randomNumber;
+        currentIteration++;
+
+        if (currentIteration === numIterations) {
+          clearInterval(rollingInterval);
+          setTimeout(function () {
+            dice.innerText = randomNumber;
+            dice.classList.remove("rolling"); // Remove the rolling animation class
+          }, 200); // A brief delay after stopping the rolling effect
+        }
+      }, interval);
+    });
 
     document.getElementById("roll-button").addEventListener("click", function() {
       var dice = document.getElementById("dice");
