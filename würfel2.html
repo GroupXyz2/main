@@ -61,6 +61,29 @@
       margin-left: 10px;
       font-size: 14px;
     }
+
+    
+  @keyframes rollAnimation {
+    0% {
+      transform: rotate(0);
+    }
+    25% {
+      transform: rotate(360deg);
+    }
+    50% {
+      transform: rotate(720deg);
+    }
+    75% {
+      transform: rotate(1080deg);
+    }
+    100% {
+      transform: rotate(1440deg);
+    }
+  }
+
+  .rolling {
+    animation: rollAnimation 2s ease-out;
+  }
   </style>
 </head>
 <body>
@@ -93,12 +116,18 @@
       sliderValue.innerText = selectedValue;
     });
 
-    document.getElementById("dice").addEventListener("click", function() {
-      var dice = document.getElementById("dice");
-      var sides = parseInt(dropdown.value);
-      var randomNumber = Math.floor(Math.random() * sides) + 1;
+    document.getElementById("dice").addEventListener("click", function () {
+    var dice = document.getElementById("dice");
+    var sides = parseInt(dropdown.value);
+    var randomNumber = Math.floor(Math.random() * sides) + 1;
+
+    dice.classList.add("rolling"); // Apply the rolling animation class
+
+    setTimeout(function () {
       dice.innerText = randomNumber;
-    });
+      dice.classList.remove("rolling"); // Remove the rolling animation class
+    }, 2000); // Set the timeout to match the duration of the animation (2 seconds)
+  });
 
     document.getElementById("roll-button").addEventListener("click", function() {
       var dice = document.getElementById("dice");
