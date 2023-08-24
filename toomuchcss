@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="particles.min.js"></script>
+    <title>Just another Website</title>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <header class="hero">
+        <h1>wow what a cool design</h1>
+        <p>definitly not cause im bored</p>
+        <a href="#features" class="cta-button">see more</a>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="features" class="feature">
+            <h2>Bro why am i writing this_</h2>
+            <p>thats a subtext</p>
+            <button id="featureButton">Elevate</button>
+        </section>
+        <section id="about" class="about">
+            <h2>About the Impostor</h2>
+            <p>Join Us in Among Us</p>
+        </section>
+        <section id="services" class="services">
+            <h2>You are annoying</h2>
+            <p>thats a subtext</p>
+            <div class="slider">
+                <div class="slider-item">Web Development sucks</div>
+                <div class="slider-item">UI/UX Design sucks more</div>
+                <div class="slider-item">Handy Battery alsmost Zero</div>
+            </div>
+        </section>
+        <section id="contact" class="contact">
+            <h2>This is a text</h2>
+            <p>This is a subtitle</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Your mom. All Rights Reserved.</p>
+    </footer>
+    <script>
+        document.getElementById("featureButton").addEventListener("click", function() {
+            alert("you stupid fish!");
+        });
+
+        particlesJS.load('particles-js', 'particles.json');
+    </script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #001F3F;
+            z-index: -1;
+        }
+
+        .hero {
+            background: url('hero-background.jpg') no-repeat center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background-color: #FF4136;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #FF8560;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        nav li {
+            margin: 0 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #FF4136;
+        }
+
+        .feature {
+            background-color: #001F3F;
+            padding: 5rem 0;
+            text-align: center;
+            transform: translateZ(0);
+            transition: transform 0.5s ease;
+        }
+
+        .feature:hover {
+            transform: scale(1.05);
+        }
+
+        button {
+            background-color: #FF4136;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2rem;
+            cursor: pointer;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #FF8560;
+        }
+
+        .about,
+        .services,
+        .contact {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .slider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .slider-item {
+            font-size: 24px;
+            opacity: 0.6;
+            margin: 0 15px;
+            transform: translateX(100%);
+            animation: slide 10s infinite;
+        }
+
+        @keyframes slide {
+            0%, 100% {
+                transform: translateX(100%);
+            }
+            20%, 80% {
+                transform: translateX(0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</body>
+</html>
