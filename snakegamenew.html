@@ -16,6 +16,13 @@
         background-color: green;
         position: absolute;
       }
+
+      .first-snake-segment {
+        width: 10px;
+        height: 10px;
+        background-color: blue;
+        position: absolute;
+      }
       /* Styling for the enemy snake segments */
 .enemy-segment {
   background-color: blue;
@@ -142,7 +149,7 @@ function pause() {
         // Render the snake on the screen
         for (let i = 0; i < snake.length; i++) {
           let snakeSegment = document.createElement('div');
-          snakeSegment.classList.add('snake-segment');
+          snakeSegment.classList.add('first-snake-segment');
           snakeSegment.style.left = snake[i].x + 'px';
           snakeSegment.style.top = snake[i].y + 'px';
           game.appendChild(snakeSegment);
