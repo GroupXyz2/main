@@ -149,7 +149,7 @@ function pause() {
         // Render the snake on the screen
         for (let i = 0; i < snake.length; i++) {
           let snakeSegment = document.createElement('div');
-          snakeSegment.classList.add('first-snake-segment');
+          snakeSegment.classList.add('snake-segment');
           snakeSegment.style.left = snake[i].x + 'px';
           snakeSegment.style.top = snake[i].y + 'px';
           game.appendChild(snakeSegment);
