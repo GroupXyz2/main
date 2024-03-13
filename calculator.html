@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s ease;
+        }
+
+        #calculator {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        #calculatorbg {
+            background-color: #fff;
+            padding: 200px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+
+        input {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-right: 20px;
+        }
+
+        button {
+            width: 48px;
+            height: 48px;
+            font-size: 18px;
+            margin: 5px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        button:active {
+            background-color: #e1e1e1;
+        }
+
+        button.operator {
+            width: 48px;
+            height: 48px;
+            font-size: 18px;
+            margin: 5px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f29200;
+            color: #fff;
+        }
+
+        button.operator:active {
+            background-color: #d98200;
+        }
+
+        #darkModeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        #darkModeButton:hover {
+            background-color: #555;
+        }
+
+        #calculator.dark {
+            background-color: #333;
+            color: #fff;
+        }
+
+        #calculator.dark input {
+            background-color: #555;
+            color: #fff;
+        }
+
+        #calculator.dark button {
+            background-color: #444;
+            color: #fff;
+        }
+
+        #calculator.dark button.operator {
+            background-color: #f29200;
+            color: #fff;
+        }
+
+        #numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            justify-content: center;
+        }
+
+        #operators {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        #operators button {
+            margin: 5px;
+        }
+
+        html {
+            background-color: #f4f4f4; 
+            transition: background-color 0.3s ease;
+        }
+
+        html.dark {
+            background-color: #333; 
+            color: #fff;
+        }
+
+        html.dark #calculator {
+            background-color: #555;
+            color: #fff;
+        }
+
+        html.dark #calculator input {
+            background-color: #555;
+            color: #fff;
+        }
+
+        html.dark #calculator button {
+            background-color: #444;
+            color: #fff;
+        }
+
+        html.dark #calculator button.operator {
+            background-color: #f29200;
+            color: #fff;
+        }
+            </style>
+</head>
+<body>
+    <button id="darkModeButton" onclick="toggleDarkMode()">Dark Mode</button>
+        <div id="calculator">
+            <input type="text" id="display" readonly>
+            <div id="numpad">
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="clearDisplay()">C</button>
+                <button onclick="calculateResult()" class="operator">=</button>
+            </div>
+            <div id="operators">
+                <button onclick="appendToDisplay('+')" class="operator">+</button>
+                <button onclick="appendToDisplay('-')" class="operator">-</button>
+                <button onclick="appendToDisplay('*')" class="operator">*</button>
+                <button onclick="appendToDisplay('/')" class="operator">/</button>
+            </div>
+        </div>
+
+        <script>
+            function appendToDisplay(value) {
+                document.getElementById('display').value += value;
+            }
+
+            function clearDisplay() {
+                document.getElementById('display').value = '';
+            }
+
+            function calculateResult() {
+                try {
+                    document.getElementById('display').value = eval(document.getElementById('display').value);
+                } catch (error) {
+                    document.getElementById('display').value = 'Error';
+                }
+            }
+
+            function toggleDarkMode() {
+                document.body.classList.toggle('dark');
+                document.documentElement.classList.toggle('dark'); 
+                document.getElementById('calculator').classList.toggle('dark');
+            }
+        </script>
+</body>
+</html>
+
+
+
+
+
