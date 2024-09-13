@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LOW ELO - VALORANT DE</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #282a36;
+            color: #e1e1e1;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .navbar {
+            background: #0d0d0d;
+            color: #fff;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background 0.3s ease;
+            border-bottom: 4px solid #ff4654;
+        }
+
+        .navbar.scrolled {
+            background: #000;
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            text-decoration: none;
+            color: #ff4654;
+        }
+
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar-nav .nav-item {
+            margin: 0 1rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: #e1e1e1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ff4654;
+        }
+
+        .header {
+            height: 100vh;
+            background-image: url('https://1.bp.blogspot.com/-kkwBunbNJjc/XvQf8HVVB4I/AAAAAAAAyLE/AE2p5KVsNRA_GXCMLDg4uCQvLNQmlBbVACLcBGAsYHQ/s2560/valorant-acharacters-4k-zx-3840x2160.jpg'); 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0));
+            z-index: 0;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            margin: 0;
+            color: #ff4654;
+            position: relative;
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .btn-primary {
+            background: #ff4654;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-primary:hover {
+            background: #e03e42;
+        }
+
+        /* Features */
+        .features {
+            padding: 4rem 1rem;
+            text-align: center;
+            background: #44475a;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid #ff4654;
+            border-bottom: 5px solid #50fa7b;
+        }
+
+        .features::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.pinimg.com/originals/af/c3/90/afc390617a4c2561d7381a0f4f5c8b22.jpg') repeat;
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .features .feature {
+            margin-bottom: 2rem;
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .features img:hover {
+            transform: scale(1.1);
+        }
+
+        .features h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #50fa7b;
+        }
+
+        /* About Section */
+        #about {
+            background-color: #1e1f29;
+            padding: 4rem 1rem;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid #50fa7b;
+            border-bottom: 5px solid #ff4654;
+            text-align: center;
+        }
+
+        #about::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://via.placeholder.com/1920x1200') repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        #about h2 {
+            color: #ff4654;
+            margin-bottom: 1rem;
+        }
+
+        #about p {
+            color: #e1e1e1;
+        }
+
+        #contact {
+            background-color: #282a36;
+            padding: 4rem 1rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        #contact::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://via.placeholder.com/1920x1200') repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        #contact h2 {
+            color: #50fa7b;
+            margin-bottom: 1rem;
+        }
+
+        #contact p {
+            color: #e1e1e1;
+        }
+
+        footer {
+            background: #1e1f29;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.25rem;
+            }
+
+            .navbar-nav {
+                flex-direction: column;
+            }
+
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">LOW ELO - VALORANT DE</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="#home">Home |</a>
+                <a class="nav-link" href="#competetive">| Unsere Community |</a>
+                <a class="nav-link" href="#about">| Unser Ranked Team |</a>
+                <a class="nav-link" href="#contact">| Beitreten |</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="home" class="header">
+        <div>
+            <h1>Willkommen bei LOW ELO - VALORANT DE</h1>
+            <p>Deine Valorant-Community!</p>
+            <a href="#contact" class="btn btn-primary">Beitreten</a>
+        </div>
+    </header>
+
+    <section id="competetive" class="features">
+        <div class="container">
+            <div class="feature">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.tTxLmGs6rJ74wh02M1rtawHaEK%26pid%3DApi&f=1&ipt=a622c3648f743aee6635080de55fa548ce8a199109788633bc59dec260ecaee1&ipo=images" alt="Feature 1">
+                <h2>Spielen & Ranked</h2>
+                <p>Wir spielen regelmäßig zusammen Valorant, Ranked, tun an Turnieren teilnehmen und machen gemeinsames Practice.</p>
+            </div>
+            <div class="feature">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.CPpq_Ln3WQShXquP9cHbAQHaEK%26pid%3DApi&f=1&ipt=0dac8617f46838166d57b55af166192a067a955f253bc1646b21ed169237a8a0&ipo=images" alt="Feature 2">
+                <h2>Gemeinsam Verbessern</h2>
+                <p>Bei uns kann jeder Strategien und Lineups austauschen, um gemeinsam besser zu werden.</p>
+            </div>
+            <div class="feature">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.2NJLJYq-EUM5rXJ82VkJVQHaEK%26pid%3DApi&f=1&ipt=57490b70f36a57ab12f0dac2806d58ce9c44126698f013b9b927573bca55307d&ipo=images" alt="Feature 3">
+                <h2>Community</h2>
+                <p>Wir spielen auch gerne mal andere Spiele, und haben spaß zusammen.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2>Unser Ranked Team</h2>
+            <p>Gestartet als ein privates Competetive Team, haben wir uns zu einer kleinen Community weiterentwickelt.</p>
+            <p>Bei uns wird jeder der regelmäßig bei Turnieren anwesend ist in unser Ranked Team aufgenommen, und wir wechseln uns in der Teilnahme ab.</p>
+            <p>Wir haben derzeit eine Community mit fast 50 Leuten und unser Ranked Team besteht aus 7 Leuten.</p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Kontakt</h2>
+            <p>Wir freuen uns auf dich!</p>
+            <p>Discord: <a href="https://discord.gg/HSGqUqVVU6" style="color: #520a52;" class="btn-primary">Beitreten</a></p>
+            <p>Social Media: 
+                <a href="#" style="color: #520a52;" class="btn-primary">In Arbeit</a>, 
+                <a href="#" style="color: #520a52;" class="btn-primary">In Arbeit</a>
+            </p>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2024 LOW ELO - VALORANT DE. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
