@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .keyboard-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 800px;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .key {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            min-width: 45px;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            user-select: none;
+        }
+
+        .key:hover {
+            background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .key.active {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a24);
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .key.space {
+            min-width: 300px;
+        }
+
+        .key.tab {
+            min-width: 80px;
+        }
+
+        .key.caps {
+            min-width: 90px;
+        }
+
+        .key.shift {
+            min-width: 120px;
+        }
+
+        .key.ctrl, .key.alt {
+            min-width: 70px;
+        }
+
+        .key.enter {
+            min-width: 100px;
+        }
+
+        .key.backspace {
+            min-width: 100px;
+        }
+
+        .output {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 60px;
+            width: 100%;
+            max-width: 800px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes keyPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .key.pressed {
+            animation: keyPress 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Virtuelles QWERTZ Keyboard</h1>
+    
+    <div class="output" id="output">Tippe auf die Tasten oder verwende deine physische Tastatur...</div>
+    
+    <div class="keyboard-container">
+        <div class="keyboard" id="keyboard">
+            <div class="row">
+                <button class="key" data-key="^">^</button>
+                <button class="key" data-key="1">1</button>
+                <button class="key" data-key="2">2</button>
+                <button class="key" data-key="3">3</button>
+                <button class="key" data-key="4">4</button>
+                <button class="key" data-key="5">5</button>
+                <button class="key" data-key="6">6</button>
+                <button class="key" data-key="7">7</button>
+                <button class="key" data-key="8">8</button>
+                <button class="key" data-key="9">9</button>
+                <button class="key" data-key="0">0</button>
+                <button class="key" data-key="ß">ß</button>
+                <button class="key" data-key="´">´</button>
+                <button class="key backspace" data-key="Backspace">⌫</button>
+            </div>
+            
+            <div class="row">
+                <button class="key tab" data-key="Tab">Tab</button>
+                <button class="key" data-key="q">Q</button>
+                <button class="key" data-key="w">W</button>
+                <button class="key" data-key="e">E</button>
+                <button class="key" data-key="r">R</button>
+                <button class="key" data-key="t">T</button>
+                <button class="key" data-key="z">Z</button>
+                <button class="key" data-key="u">U</button>
+                <button class="key" data-key="i">I</button>
+                <button class="key" data-key="o">O</button>
+                <button class="key" data-key="p">P</button>
+                <button class="key" data-key="ü">Ü</button>
+                <button class="key" data-key="+">+</button>
+                <button class="key enter" data-key="Enter">Enter</button>
+            </div>
+            
+            <div class="row">
+                <button class="key caps" data-key="CapsLock">Caps</button>
+                <button class="key" data-key="a">A</button>
+                <button class="key" data-key="s">S</button>
+                <button class="key" data-key="d">D</button>
+                <button class="key" data-key="f">F</button>
+                <button class="key" data-key="g">G</button>
+                <button class="key" data-key="h">H</button>
+                <button class="key" data-key="j">J</button>
+                <button class="key" data-key="k">K</button>
+                <button class="key" data-key="l">L</button>
+                <button class="key" data-key="ö">Ö</button>
+                <button class="key" data-key="ä">Ä</button>
+                <button class="key" data-key="#">#</button>
+            </div>
+            
+            <div class="row">
+                <button class="key shift" data-key="Shift">Shift</button>
+                <button class="key" data-key="<"><</button>
+                <button class="key" data-key="y">Y</button>
+                <button class="key" data-key="x">X</button>
+                <button class="key" data-key="c">C</button>
+                <button class="key" data-key="v">V</button>
+                <button class="key" data-key="b">B</button>
+                <button class="key" data-key="n">N</button>
+                <button class="key" data-key="m">M</button>
+                <button class="key" data-key=",">,</button>
+                <button class="key" data-key=".">.</button>
+                <button class="key" data-key="-">-</button>
+                <button class="key shift" data-key="Shift">Shift</button>
+            </div>
+            
+            <div class="row">
+                <button class="key ctrl" data-key="Control">Ctrl</button>
+                <button class="key" data-key="Meta">Win</button>
+                <button class="key alt" data-key="Alt">Alt</button>
+                <button class="key space" data-key=" ">Leertaste</button>
+                <button class="key alt" data-key="AltGraph">Alt Gr</button>
+                <button class="key" data-key="Meta">Win</button>
+                <button class="key" data-key="ContextMenu">Menu</button>
+                <button class="key ctrl" data-key="Control">Ctrl</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+        const keys = document.querySelectorAll('.key');
+        let outputText = '';
+        let capsLock = false;
+        let shift = false;
+      
+        const keyMap = {
+            'Digit1': '1', 'Digit2': '2', 'Digit3': '3', 'Digit4': '4', 'Digit5': '5',
+            'Digit6': '6', 'Digit7': '7', 'Digit8': '8', 'Digit9': '9', 'Digit0': '0',
+            'KeyQ': 'q', 'KeyW': 'w', 'KeyE': 'e', 'KeyR': 'r', 'KeyT': 't',
+            'KeyZ': 'z', 'KeyU': 'u', 'KeyI': 'i', 'KeyO': 'o', 'KeyP': 'p',
+            'KeyA': 'a', 'KeyS': 's', 'KeyD': 'd', 'KeyF': 'f', 'KeyG': 'g',
+            'KeyH': 'h', 'KeyJ': 'j', 'KeyK': 'k', 'KeyL': 'l',
+            'KeyY': 'y', 'KeyX': 'x', 'KeyC': 'c', 'KeyV': 'v', 'KeyB': 'b',
+            'KeyN': 'n', 'KeyM': 'm',
+            'Space': ' ', 'Enter': 'Enter', 'Backspace': 'Backspace',
+            'Minus': 'ß', 'Equal': '´', 'BracketLeft': 'ü', 'BracketRight': '+',
+            'Semicolon': 'ö', 'Quote': 'ä', 'Backslash': '#',
+            'IntlBackslash': '<', 'Comma': ',', 'Period': '.', 'Slash': '-'
+        };
+
+        keys.forEach(key => {
+            key.addEventListener('click', () => {
+                const keyValue = key.getAttribute('data-key');
+                handleKeyPress(keyValue);
+                animateKey(key);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            const mappedKey = keyMap[e.code] || e.key;
+            const virtualKey = findVirtualKey(mappedKey);
+            
+            if (virtualKey) {
+                handleKeyPress(mappedKey);
+                animateKey(virtualKey);
+            }
+        });
+
+        function findVirtualKey(key) {
+            return Array.from(keys).find(k => 
+                k.getAttribute('data-key').toLowerCase() === key.toLowerCase() ||
+                (key === ' ' && k.getAttribute('data-key') === ' ')
+            );
+        }
+
+        function handleKeyPress(key) {
+            switch(key) {
+                case 'Backspace':
+                    outputText = outputText.slice(0, -1);
+                    break;
+                case 'Enter':
+                    outputText += '\n';
+                    break;
+                case 'Tab':
+                    outputText += '    ';
+                    break;
+                case 'CapsLock':
+                    capsLock = !capsLock;
+                    break;
+                case 'Shift':
+                    shift = !shift;
+                    setTimeout(() => shift = false, 200);
+                    break;
+                case 'Control':
+                case 'Alt':
+                case 'AltGraph':
+                case 'Meta':
+                case 'ContextMenu':
+                    break;
+                default:
+                    let char = key;
+                    if (key.length === 1 && key.match(/[a-zA-Z]/)) {
+                        char = (capsLock || shift) ? key.toUpperCase() : key.toLowerCase();
+                    }
+                    outputText += char;
+            }
+            
+            updateOutput();
+        }
+
+        function animateKey(keyElement) {
+            keyElement.classList.add('active');
+            keyElement.classList.add('pressed');
+            
+            setTimeout(() => {
+                keyElement.classList.remove('active');
+                keyElement.classList.remove('pressed');
+            }, 150);
+        }
+
+        function updateOutput() {
+            if (outputText === '') {
+                output.textContent = 'Tippe auf die Tasten oder verwende deine physische Tastatur...';
+                output.style.color = 'rgba(255, 255, 255, 0.6)';
+            } else {
+                output.textContent = outputText;
+                output.style.color = 'white';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'CapsLock') {
+                const capsKey = document.querySelector('[data-key="CapsLock"]');
+                capsKey.style.background = capsLock ? 
+                    'linear-gradient(145deg, #ff6b6b, #ee5a24)' : 
+                    'linear-gradient(145deg, #2a2a2a, #1a1a1a)';
+            }
+        });
+    </script>
+</body>
+</html>
