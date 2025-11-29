@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyWars-Spielerumfrage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .question {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question:last-child {
+            border-bottom: none;
+        }
+
+        .question-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .question-number {
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .option input[type="checkbox"],
+        .option input[type="radio"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95em;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 SkyWars-Spielerumfrage</h1>
+        <div class="subtitle">Hilf uns, das beste SkyWars-Erlebnis zu schaffen! (10 Fragen)</div>
+
+        <form id="surveyForm">
+            <!-- Frage 1 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">1.</span>Wie erfahren bist du in SkyWars?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" value="anfaenger" id="q1a">
+                        <label for="q1a">Anfänger</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="mittel" id="q1b">
+                        <label for="q1b">Mittel</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="erfahren" id="q1c">
+                        <label for="q1c">Erfahren</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="competitive" id="q1d">
+                        <label for="q1d">Competitive</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frage 2 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">2.</span>Was ist dir bei SkyWars am wichtigsten?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" value="schnelle_runden" id="q2a">
+                        <label for="q2a">Schnelle Runden</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="fairer_loot" id="q2b">
+                        <label for="q2b">Fairer Loot</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="gute_maps" id="q2c">
+                        <label for="q2c">Gute Maps</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="kits_perks" id="q2d">
+                        <label for="q2d">Kits/Perks</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="intensives_pvp" id="q2e">
+                        <label for="q2e">Intensives PvP</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frage 3 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">3.</span>Welche Loot-Kategorie ist für dich am kritischsten?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" value="waffen" id="q3a">
+                        <label for="q3a">Waffen</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="ruestung" id="q3b">
+                        <label for="q3b">Rüstung</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="bloecke" id="q3c">
+                        <label for="q3c">Blöcke</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="mobility" id="q3d">
+                        <label for="q3d">Mobility-Items (Enderperlen, Wasser, Leiter etc.)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="utility" id="q3e">
+                        <label for="q3e">Utility (Rods, Schneebälle, Eier, TNT, Lava)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frage 4 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">4.</span>Welche Items sollten unbedingt enthalten sein? (Mehrfachauswahl)</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="checkbox" name="q4" value="enderperlen" id="q4a">
+                        <label for="q4a">Enderperlen</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q4" value="schneebaelle_eier" id="q4b">
+                        <label for="q4b">Schneebälle/Eier</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q4" value="rods" id="q4c">
+                        <label for="q4c">Rods</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q4" value="lava_wasser" id="q4d">
+                        <label for="q4d">Lava/Wasser</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q4" value="tnt_traps" id="q4e">
+                        <label for="q4e">TNT/Traps</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q4" value="bow_kit" id="q4f">
+                        <label for="q4f">Bow-Kit</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q4" value="speed_regen" id="q4g">
+                        <label for="q4g">Speed/Regeneration</label>
+                    </div>
+                </div>
+                <textarea name="q4_custom" placeholder="Eigene Item-Ideen..." style="margin-top: 15px;"></textarea>
+            </div>
+
+            <!-- Frage 5 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">5.</span>Welche Items sollten reduziert oder komplett entfernt werden?</div>
+                <textarea name="q5" placeholder="Deine Antwort..."></textarea>
+            </div>
+
+            <!-- Frage 6 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">6.</span>Welcher Loot-Stil gefällt dir am meisten?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" value="random_loot" id="q6a">
+                        <label for="q6a">Random-Loot wie klassische SkyWars</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="ausbalanciert" id="q6b">
+                        <label for="q6b">Ausbalancierte Loot-Tables (weniger RNG)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="kits_random" id="q6c">
+                        <label for="q6c">Kits + leicht randomisierte Kisten</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="skill_fokus" id="q6d">
+                        <label for="q6d">Komplett skill-fokus ohne Kits</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frage 7 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">7.</span>Wie sollten die Karten aufgebaut sein?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" value="kleine_inseln" id="q7a">
+                        <label for="q7a">Kleine Inseln → schnelle Kämpfe</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="mittelgross" id="q7b">
+                        <label for="q7b">Mittelgroß → Mischung aus PvP und Movement</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="gross" id="q7c">
+                        <label for="q7c">Groß → mehr taktisches Spielen</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="vertikal" id="q7d">
+                        <label for="q7d">Vertikale Maps (viel Höhe, Clutches)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="flach" id="q7e">
+                        <label for="q7e">Flache Maps (weniger Void-Deaths)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frage 8 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">8.</span>Wie stehst du zu Kits/Perks?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" value="kits_wichtig" id="q8a">
+                        <label for="q8a">Kits sind wichtig</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="kits_balanced" id="q8b">
+                        <label for="q8b">Kits ok, aber nur balanced</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="keine_kits" id="q8c">
+                        <label for="q8c">Keine Kits – reine Fairness</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="perks_freischaltbar" id="q8d">
+                        <label for="q8d">Perks nach Siegen freischaltbar macht Spaß</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="keine_perks" id="q8e">
+                        <label for="q8e">Keine Perks – zu viel Pay2Win-Gefahr</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frage 9 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">9.</span>Was frustriert dich an SkyWars am meisten? (Mehrfachauswahl)</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="checkbox" name="q9" value="unfairer_loot" id="q9a">
+                        <label for="q9a">Unfairer Loot</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q9" value="cleanups" id="q9b">
+                        <label for="q9b">Cleanups</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q9" value="camper" id="q9c">
+                        <label for="q9c">Camper</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q9" value="kurze_runden" id="q9d">
+                        <label for="q9d">Zu kurze Runden</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q9" value="lange_runden" id="q9e">
+                        <label for="q9e">Zu lange Runden</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q9" value="starke_items" id="q9f">
+                        <label for="q9f">Zu starke Items</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" name="q9" value="bugs" id="q9g">
+                        <label for="q9g">Bugs/Hit-Reg</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frage 10 -->
+            <div class="question">
+                <div class="question-title"><span class="question-number">10.</span>Was wünschst du dir für eine moderne SkyWars-Version?</div>
+                <textarea name="q10" placeholder="Teile deine Ideen und Wünsche..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Umfrage absenden 🚀</button>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            ✅ Vielen Dank für deine Teilnahme! Dein Feedback hilft uns sehr.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                timestamp: new Date().toISOString(),
+                antworten: {}
+            };
+            
+            // Frage 1: Erfahrung
+            data.antworten.erfahrung = formData.get('q1');
+            
+            // Frage 2: Wichtigstes
+            data.antworten.wichtigstes = formData.get('q2');
+            
+            // Frage 3: Kritischste Loot-Kategorie
+            data.antworten.loot_kategorie = formData.get('q3');
+            
+            // Frage 4: Items die enthalten sein sollten (Mehrfach)
+            data.antworten.wichtige_items = formData.getAll('q4');
+            data.antworten.eigene_item_ideen = formData.get('q4_custom');
+            
+            // Frage 5: Items entfernen
+            data.antworten.items_entfernen = formData.get('q5');
+            
+            // Frage 6: Loot-Stil
+            data.antworten.loot_stil = formData.get('q6');
+            
+            // Frage 7: Karten-Aufbau
+            data.antworten.karten_aufbau = formData.get('q7');
+            
+            // Frage 8: Kits/Perks
+            data.antworten.kits_perks_meinung = formData.get('q8');
+            
+            // Frage 9: Frustrationen (Mehrfach)
+            data.antworten.frustrationen = formData.getAll('q9');
+            
+            // Frage 10: Wünsche
+            data.antworten.wuensche = formData.get('q10');
+            
+            // Validierung: Pflichtfelder prüfen
+            const requiredFields = [
+                { field: data.antworten.erfahrung, name: 'Frage 1: Wie erfahren bist du in SkyWars?' },
+                { field: data.antworten.wichtigstes, name: 'Frage 2: Was ist dir bei SkyWars am wichtigsten?' },
+                { field: data.antworten.loot_kategorie, name: 'Frage 3: Welche Loot-Kategorie ist für dich am kritischsten?' },
+                { field: data.antworten.loot_stil, name: 'Frage 6: Welcher Loot-Stil gefällt dir am meisten?' },
+                { field: data.antworten.karten_aufbau, name: 'Frage 7: Wie sollten die Karten aufgebaut sein?' },
+                { field: data.antworten.kits_perks_meinung, name: 'Frage 8: Wie stehst du zu Kits/Perks?' }
+            ];
+            
+            const emptyFields = requiredFields.filter(item => !item.field);
+            
+            if (emptyFields.length > 0) {
+                const missingFieldNames = emptyFields.map(item => item.name).join('\n• ');
+                alert('⚠️ Bitte beantworte folgende Pflichtfragen:\n\n• ' + missingFieldNames);
+                return;
+            }
+            
+            // Prüfe ob mindestens eine Checkbox bei Frage 4 oder 9 ausgewählt wurde
+            if (data.antworten.wichtige_items.length === 0) {
+                alert('⚠️ Bitte wähle bei Frage 4 mindestens ein Item aus, das enthalten sein sollte.');
+                return;
+            }
+            
+            if (data.antworten.frustrationen.length === 0) {
+                alert('⚠️ Bitte wähle bei Frage 9 mindestens eine Frustration aus (oder überspringe die Frage, wenn nichts zutrifft).');
+                // Erlaube fortfahren ohne Frustration-Auswahl
+            }
+            
+            console.log('Strukturierte Umfrage-Daten:', JSON.stringify(data, null, 2));
+            
+            // Backend URL - Hier deine Server-Adresse eintragen
+            const BACKEND_URL = 'https://downloader.groupxyz.me:3443/survey';
+            
+            // Daten an Backend senden
+            try {
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    document.getElementById('surveyForm').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    setTimeout(() => {
+                        document.getElementById('surveyForm').reset();
+                        document.getElementById('surveyForm').style.display = 'block';
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 3000);
+                } else {
+                    alert('Fehler beim Senden der Umfrage. Bitte versuche es erneut.');
+                }
+            } catch (error) {
+                console.error('Fehler:', error);
+                alert('Verbindung zum Server fehlgeschlagen. Die Daten wurden in der Konsole ausgegeben.');
+            }
+        });
+    </script>
+</body>
+</html>
