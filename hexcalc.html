@@ -38,12 +38,17 @@ label{display:block;font-size:.85rem;color:var(--mute);margin-bottom:4px}
 .btn{border:1px solid var(--line);border-radius:8px}
 button:focus-visible{outline:2px solid var(--on);outline-offset:2px}
 .scroll{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 14px}
-.row{display:flex;gap:18px;align-items:center;margin-bottom:6px;width:max-content;min-width:100%}
+.row{display:flex;gap:14px;align-items:center;margin-bottom:6px}
+.blocks{display:flex;flex-wrap:wrap;gap:26px 34px;--cw:44px}
+.blk{flex:0 0 auto;max-width:100%}
+.bh{font-size:.85rem;color:var(--mute);margin-bottom:6px}
+.bh b{color:var(--ink);font-family:"IBM Plex Mono",ui-monospace,monospace}
+@media (max-width:520px){.blocks{--cw:31px}.cell{height:34px}.nh{font-size:1.7rem}}
 .row .tag{position:sticky;left:0}
 .grp{display:flex;gap:4px}
-.cell{width:46px;height:38px;display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",ui-monospace,monospace}
+.cell{width:var(--cw);height:38px;display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",ui-monospace,monospace}
 .w{height:24px;font-size:.82rem;color:var(--mute)}
-.nib{width:calc(46px*4 + 4px*3);}
+.nib{width:calc(var(--cw)*4 + 12px)}
 .bit{border:0;border-radius:6px;background:var(--off);color:var(--mute);font-size:1.3rem;font-weight:600;cursor:pointer;padding:0}
 .bit[aria-pressed="true"]{background:var(--on);color:var(--on-ink)}
 .nw{margin-top:10px}
@@ -59,7 +64,7 @@ button:focus-visible{outline:2px solid var(--on);outline-offset:2px}
   <p class="sub">Type in any box, or tap the bits. Each group of four bits (a nibble) becomes one hex digit.</p>
 
   <div class="inputs">
-    <div class="field" id="fd"><label for="dec">Decimal</label><input id="dec" class="mono" inputmode="numeric" autocomplete="off" spellcheck="false"></div>
+    <div class="field" id="fd"><label for="dec" id="dlab">Decimal</label><input id="dec" class="mono" inputmode="numeric" autocomplete="off" spellcheck="false"></div>
     <div class="field" id="fh"><label for="hex">Hexadecimal</label><input id="hex" class="mono" autocomplete="off" spellcheck="false" autocapitalize="characters"></div>
     <div class="field" id="fb"><label for="bin">Binary</label><input id="bin" class="mono" inputmode="numeric" autocomplete="off" spellcheck="false"></div>
   </div>
@@ -70,7 +75,7 @@ button:focus-visible{outline:2px solid var(--on);outline-offset:2px}
     <button class="btn" id="clear" type="button">Clear</button>
   </div>
 
-  <div class="scroll"><div id="board"></div></div>
+  <div class="scroll"><div class="blocks" id="board"></div></div>
   <div class="eq" id="eq"></div>
 </main>
 
@@ -94,38 +99,50 @@ function buildSeg(){
 
 function bitAt(v,i){ return Math.floor(v/Math.pow(2,i))%2; }
 
+function dotted(v){ return [24,16,8,0].map(k=>Math.floor(v/Math.pow(2,k))%256).join('.'); }
+
 function render(skip){
   buildSeg();
   const board=$('board'); board.innerHTML='';
-  const nibCount=bits/4;
-  const mk=(cls,label)=>{ const r=document.createElement('div'); r.className='row '+cls; board.appendChild(r); return r; };
-  const rW=mk('w'), rB=mk(''), rNW=mk('nw'), rND=mk(''), rNH=mk('');
-  for(let n=nibCount-1;n>=0;n--){
-    const gW=document.createElement('div'),gB=document.createElement('div'),gNW=document.createElement('div');
-    gW.className=gB.className=gNW.className='grp';
-    for(let k=3;k>=0;k--){
-      const i=n*4+k;
-      const w=document.createElement('div'); w.className='cell w'; w.textContent=Math.pow(2,i); gW.appendChild(w);
-      const on=bitAt(value,i)===1;
-      const b=document.createElement('button'); b.type='button'; b.className='cell bit';
-      b.textContent=on?1:0; b.setAttribute('aria-pressed',on);
-      b.setAttribute('aria-label','bit '+i+' (value '+Math.pow(2,i)+')');
-      b.onclick=()=>{ value+= on?-Math.pow(2,i):Math.pow(2,i); render(); };
-      gB.appendChild(b);
-      const nw=document.createElement('div'); nw.className='cell w'; nw.textContent=Math.pow(2,k); gNW.appendChild(nw);
+  const bytes=bits/8, el=(c,t)=>{const d=document.createElement('div'); d.className=c; if(t!==undefined) d.textContent=t; return d;};
+  for(let by=bytes-1;by>=0;by--){
+    const blk=el('blk');
+    if(bytes>1){
+      const h=el('bh'); const bv=Math.floor(value/Math.pow(256,by))%256;
+      h.innerHTML='Byte '+(bytes-by)+': <b>'+bv+'</b>'; blk.appendChild(h);
     }
-    rW.appendChild(gW); rB.appendChild(gB); rNW.appendChild(gNW);
-    const nv=Math.floor(value/Math.pow(16,n))%16;
-    const d=document.createElement('div'); d.className='cell nib nd'; d.textContent=nv; rND.appendChild(d);
-    const h=document.createElement('div'); h.className='cell nib nh'; h.textContent=nv.toString(16).toUpperCase(); rNH.appendChild(h);
+    const rows=[el('row'),el('row'),el('row nw'),el('row'),el('row')];
+    rows.forEach(r=>blk.appendChild(r));
+    for(let n=1;n>=0;n--){
+      const nib=by*2+n;
+      const g=[el('grp'),el('grp'),el('grp')];
+      for(let k=3;k>=0;k--){
+        const i=nib*4+k, on=bitAt(value,i)===1;
+        g[0].appendChild(el('cell w',Math.pow(2,i%8)));
+        const b=el('cell bit',on?1:0); b.className='cell bit'; 
+        const btn=document.createElement('button'); btn.type='button'; btn.className='cell bit';
+        btn.textContent=on?1:0; btn.setAttribute('aria-pressed',on);
+        btn.setAttribute('aria-label','bit '+i+' (value '+Math.pow(2,i)+')');
+        btn.onclick=()=>{ value+=on?-Math.pow(2,i):Math.pow(2,i); render(); };
+        g[1].appendChild(btn);
+        g[2].appendChild(el('cell w',Math.pow(2,k)));
+      }
+      rows[0].appendChild(g[0]); rows[1].appendChild(g[1]); rows[2].appendChild(g[2]);
+      const nv=Math.floor(value/Math.pow(16,nib))%16;
+      rows[3].appendChild(el('cell nib nd',nv));
+      rows[4].appendChild(el('cell nib nh',nv.toString(16).toUpperCase()));
+    }
+    board.appendChild(blk);
   }
   const hs=value.toString(16).toUpperCase();
   const bs=value.toString(2).padStart(bits,'0').replace(/(.{4})(?=.)/g,'$1 ');
-  if(skip!=='dec') dec.value=value;
+  const ip=bits===32;
+  $('dlab').textContent=ip?'Decimal (dotted)':'Decimal';
+  if(skip!=='dec') dec.value=ip?dotted(value):value;
   if(skip!=='hex') hex.value=hs;
   if(skip!=='bin') bin.value=bs;
   ['fd','fh','fb'].forEach(i=>$(i).classList.remove('bad'));
-  $('eq').innerHTML='<b>'+value+'</b> in decimal = <b>0x'+hs+'</b> in hex = <b>'+bs+'</b> in binary';
+  $('eq').innerHTML=(ip?'<b>'+dotted(value)+'</b> (as one number: '+value+')':'<b>'+value+'</b> in decimal')+' = <b>0x'+hs+'</b> in hex = <b>'+bs+'</b> in binary';
 }
 
 function bad(id){ $(id).classList.add('bad'); }
@@ -134,6 +151,11 @@ function parseIn(kind){
   let s=el.value.trim().replace(/\s+/g,'');
   if(kind==='hex') s=s.replace(/^0x/i,'');
   if(s===''){ value=0; render(kind); $(fid).classList.remove('bad'); return; }
+  if(kind==='dec'&&/^\d+(\.\d+){3}$/.test(s)){
+    const p=s.split('.').map(Number);
+    if(p.some(x=>x>255)){ bad(fid); return; }
+    value=p.reduce((a,x)=>a*256+x,0); bits=32; render(kind); return;
+  }
   const re={dec:/^\d+$/,hex:/^[0-9a-f]+$/i,bin:/^[01]+$/}[kind];
   const base={dec:10,hex:16,bin:2}[kind];
   const v=re.test(s)?parseInt(s,base):NaN;
