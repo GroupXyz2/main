@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Decimal ⇄ Hex calculator</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#eef1f5;--panel:#fff;--ink:#14202e;--mute:#66758a;--line:#d3dae4;
+  --on:#1f4fd8;--on-ink:#fff;--off:#e4e9f0;--hex:#d9611a;--bad:#c2261f;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1621;--panel:#18212e;--ink:#e8edf4;--mute:#8d9bb0;--line:#2b384a;
+  --on:#6d93ff;--on-ink:#0b1220;--off:#243044;--hex:#ff9250;--bad:#ff7b72;}}
+:root[data-theme="dark"]{
+  --bg:#0f1621;--panel:#18212e;--ink:#e8edf4;--mute:#8d9bb0;--line:#2b384a;
+  --on:#6d93ff;--on-ink:#0b1220;--off:#243044;--hex:#ff9250;--bad:#ff7b72;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:28px 18px 48px}
+h1{font-size:1.6rem;margin:0 0 4px;font-weight:600}
+p.sub{margin:0 0 22px;color:var(--mute);max-width:60ch}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px}
+label{display:block;font-size:.85rem;color:var(--mute);margin-bottom:4px}
+.field{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.field input{width:100%;border:0;background:transparent;color:var(--ink);font:600 1.3rem "IBM Plex Mono",ui-monospace,monospace;outline:none;padding:0}
+.field:focus-within{border-color:var(--on);box-shadow:0 0 0 2px color-mix(in srgb,var(--on) 30%,transparent)}
+.field.bad{border-color:var(--bad)}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;color:var(--mute);font-size:.9rem}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button,.btn{font:inherit;color:var(--ink);background:var(--panel);border:0;padding:6px 14px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--on);color:var(--on-ink)}
+.btn{border:1px solid var(--line);border-radius:8px}
+button:focus-visible{outline:2px solid var(--on);outline-offset:2px}
+.scroll{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 14px}
+.row{display:flex;gap:18px;align-items:center;margin-bottom:6px;width:max-content;min-width:100%}
+.row .tag{position:sticky;left:0}
+.grp{display:flex;gap:4px}
+.cell{width:46px;height:38px;display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",ui-monospace,monospace}
+.w{height:24px;font-size:.82rem;color:var(--mute)}
+.nib{width:calc(46px*4 + 4px*3);}
+.bit{border:0;border-radius:6px;background:var(--off);color:var(--mute);font-size:1.3rem;font-weight:600;cursor:pointer;padding:0}
+.bit[aria-pressed="true"]{background:var(--on);color:var(--on-ink)}
+.nw{margin-top:10px}
+.nd{font-size:1.05rem;color:var(--mute);height:30px}
+.nh{font-size:2.1rem;font-weight:600;color:var(--hex);height:48px;border-top:2px solid var(--hex);border-radius:0}
+.eq{margin-top:14px;color:var(--mute);font-size:.9rem;overflow-wrap:anywhere}
+.eq b{color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+<main>
+  <h1>Decimal ⇄ Hex calculator</h1>
+  <p class="sub">Type in any box, or tap the bits. Each group of four bits (a nibble) becomes one hex digit.</p>
+
+  <div class="inputs">
+    <div class="field" id="fd"><label for="dec">Decimal</label><input id="dec" class="mono" inputmode="numeric" autocomplete="off" spellcheck="false"></div>
+    <div class="field" id="fh"><label for="hex">Hexadecimal</label><input id="hex" class="mono" autocomplete="off" spellcheck="false" autocapitalize="characters"></div>
+    <div class="field" id="fb"><label for="bin">Binary</label><input id="bin" class="mono" inputmode="numeric" autocomplete="off" spellcheck="false"></div>
+  </div>
+
+  <div class="bar">
+    <span>Width</span>
+    <span class="seg" id="seg"></span>
+    <button class="btn" id="clear" type="button">Clear</button>
+  </div>
+
+  <div class="scroll"><div id="board"></div></div>
+  <div class="eq" id="eq"></div>
+</main>
+
+<script>
+const MAX=4294967295;
+let bits=8, value=0;
+const $=id=>document.getElementById(id);
+const dec=$('dec'),hex=$('hex'),bin=$('bin');
+
+function setWidthFor(v){ while(v>=Math.pow(2,bits) && bits<32) bits*=2; }
+
+function buildSeg(){
+  const seg=$('seg'); seg.innerHTML='';
+  [8,16,32].forEach(n=>{
+    const b=document.createElement('button');
+    b.type='button'; b.textContent=n+' bit'; b.setAttribute('aria-pressed',n===bits);
+    b.onclick=()=>{ bits=n; if(value>=Math.pow(2,bits)) value=value%Math.pow(2,bits); render(); };
+    seg.appendChild(b);
+  });
+}
+
+function bitAt(v,i){ return Math.floor(v/Math.pow(2,i))%2; }
+
+function render(skip){
+  buildSeg();
+  const board=$('board'); board.innerHTML='';
+  const nibCount=bits/4;
+  const mk=(cls,label)=>{ const r=document.createElement('div'); r.className='row '+cls; board.appendChild(r); return r; };
+  const rW=mk('w'), rB=mk(''), rNW=mk('nw'), rND=mk(''), rNH=mk('');
+  for(let n=nibCount-1;n>=0;n--){
+    const gW=document.createElement('div'),gB=document.createElement('div'),gNW=document.createElement('div');
+    gW.className=gB.className=gNW.className='grp';
+    for(let k=3;k>=0;k--){
+      const i=n*4+k;
+      const w=document.createElement('div'); w.className='cell w'; w.textContent=Math.pow(2,i); gW.appendChild(w);
+      const on=bitAt(value,i)===1;
+      const b=document.createElement('button'); b.type='button'; b.className='cell bit';
+      b.textContent=on?1:0; b.setAttribute('aria-pressed',on);
+      b.setAttribute('aria-label','bit '+i+' (value '+Math.pow(2,i)+')');
+      b.onclick=()=>{ value+= on?-Math.pow(2,i):Math.pow(2,i); render(); };
+      gB.appendChild(b);
+      const nw=document.createElement('div'); nw.className='cell w'; nw.textContent=Math.pow(2,k); gNW.appendChild(nw);
+    }
+    rW.appendChild(gW); rB.appendChild(gB); rNW.appendChild(gNW);
+    const nv=Math.floor(value/Math.pow(16,n))%16;
+    const d=document.createElement('div'); d.className='cell nib nd'; d.textContent=nv; rND.appendChild(d);
+    const h=document.createElement('div'); h.className='cell nib nh'; h.textContent=nv.toString(16).toUpperCase(); rNH.appendChild(h);
+  }
+  const hs=value.toString(16).toUpperCase();
+  const bs=value.toString(2).padStart(bits,'0').replace(/(.{4})(?=.)/g,'$1 ');
+  if(skip!=='dec') dec.value=value;
+  if(skip!=='hex') hex.value=hs;
+  if(skip!=='bin') bin.value=bs;
+  ['fd','fh','fb'].forEach(i=>$(i).classList.remove('bad'));
+  $('eq').innerHTML='<b>'+value+'</b> in decimal = <b>0x'+hs+'</b> in hex = <b>'+bs+'</b> in binary';
+}
+
+function bad(id){ $(id).classList.add('bad'); }
+function parseIn(kind){
+  const el={dec,hex,bin}[kind], fid={dec:'fd',hex:'fh',bin:'fb'}[kind];
+  let s=el.value.trim().replace(/\s+/g,'');
+  if(kind==='hex') s=s.replace(/^0x/i,'');
+  if(s===''){ value=0; render(kind); $(fid).classList.remove('bad'); return; }
+  const re={dec:/^\d+$/,hex:/^[0-9a-f]+$/i,bin:/^[01]+$/}[kind];
+  const base={dec:10,hex:16,bin:2}[kind];
+  const v=re.test(s)?parseInt(s,base):NaN;
+  if(isNaN(v)||v>MAX){ bad(fid); return; }
+  value=v; setWidthFor(v); render(kind);
+}
+dec.oninput=()=>parseIn('dec');
+hex.oninput=()=>parseIn('hex');
+bin.oninput=()=>parseIn('bin');
+$('clear').onclick=()=>{ value=0; render(); };
+dec.value=254; value=254; render();
+</script>
+</body>
+</html>
